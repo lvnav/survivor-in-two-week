@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://byysobtogm3ah"]
+
+[ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://scenes/level/level.tscn" id="1_o20hb"]
+[ext_resource type="PackedScene" uid="uid://clpovqi64r52s" path="res://scenes/player/player.tscn" id="2_83sjk"]
+[ext_resource type="PackedScene" uid="uid://shmhpdkecxih" path="res://scenes/enemy/enemy.tscn" id="4_wc78t"]
+
+[sub_resource type="GDScript" id="GDScript_msblv"]
+script/source = "extends Node2D
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="Root" type="Node2D"]
+script = SubResource("GDScript_msblv")
+
+[node name="level" parent="." instance=ExtResource("1_o20hb")]
+position = Vector2(960, 540)
+enemy = ExtResource("4_wc78t")
+
+[node name="Player" parent="level" instance=ExtResource("2_83sjk")]

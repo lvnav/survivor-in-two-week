@@ -1,7 +1,9 @@
 extends Node2D
 
-var enemy_scene = preload("res://enemy.tscn")
-var enemies = Array()
+#var enemy_scene = preload("res://scenes/enemy/enemy.tscn")
+#var enemies = Array()
+@export var enemy : PackedScene
+@export var enemies : Array
 
 @onready var player: CharacterBody2D = $Player
 @onready var spawns: Node2D = $Spawns
@@ -19,7 +21,7 @@ func _process(delta: float) -> void:
 		enemy.direction = player.position
 
 func _on_mob_spawn_timeout() -> void:
-	var enemy = enemy_scene.instantiate()
+	var enemy = enemy.instantiate()
 	var spawner_position: Node2D = spawns.get_child(randi_range(0, spawns.get_child_count()-1))
 	
 	enemy.position = spawner_position.position

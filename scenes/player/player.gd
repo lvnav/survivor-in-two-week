@@ -24,11 +24,11 @@ func _physics_process(delta: float) -> void:
 	
 
 func _aim() -> void:
-	ray_cast_2d.target_position = to_local(get_viewport().get_mouse_position())
+	ray_cast_2d.target_position = to_global(get_viewport().get_mouse_position())
 	
 func _shoot() -> void:
 	var fired_bolt = bolt.instantiate()
-	fired_bolt.position = position
+	fired_bolt.position = to_global(position)
 	fired_bolt.direction = (ray_cast_2d.target_position).normalized()
 	bolts.append(fired_bolt)
 	get_tree().current_scene.add_child(fired_bolt)

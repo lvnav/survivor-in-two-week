@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://bsbrbouhigy8o"]
+
+[ext_resource type="Script" path="res://scenes/root.gd" id="2_pvoec"]
+[ext_resource type="Texture2D" uid="uid://bsasecdsi31qn" path="res://assets/background.png" id="4_msh43"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_oeg43"]
+a = Vector2(243, -188)
+b = Vector2(249, 406)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_nbtqs"]
+a = Vector2(1226, 319)
+b = Vector2(720, 330)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_3qm8r"]
+a = Vector2(713, 332)
+b = Vector2(706, 924)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_7pfh1"]
+a = Vector2(1229, 911)
+b = Vector2(705, 916)
+
+[node name="level" type="Sprite2D"]
+texture = ExtResource("4_msh43")
+script = ExtResource("2_pvoec")
+
+[node name="MapBorder" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapBorder"]
+position = Vector2(18, -47)
+shape = SubResource("SegmentShape2D_oeg43")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="MapBorder"]
+position = Vector2(-955, -533)
+shape = SubResource("SegmentShape2D_nbtqs")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="MapBorder"]
+position = Vector2(-943, -549)
+shape = SubResource("SegmentShape2D_3qm8r")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="MapBorder"]
+position = Vector2(-940, -550)
+shape = SubResource("SegmentShape2D_7pfh1")
+
+[node name="MobSpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="SpawnA" type="Node2D" parent="Spawns"]
+position = Vector2(22, -251)
+
+[node name="SpawnB" type="Node2D" parent="Spawns"]
+position = Vector2(506, 263)
+
+[node name="SpawnC" type="Node2D" parent="Spawns"]
+position = Vector2(8, 412)
+
+[node name="SpawnD" type="Node2D" parent="Spawns"]
+position = Vector2(-472, 267)
+
+[connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timeout"]
