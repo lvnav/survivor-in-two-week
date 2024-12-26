@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0lgfe3nmh2ok"]
+
+[ext_resource type="Script" path="res://bolt.gd" id="1_686ls"]
+[ext_resource type="Texture2D" uid="uid://bos6sw3oh7bal" path="res://assets/bolt.jpg" id="2_hfvyw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_36mqg"]
+radius = 22.0227
+
+[node name="Bolt" type="Area2D" groups=["player_dmg_projectile"]]
+script = ExtResource("1_686ls")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_hfvyw")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_36mqg")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]
