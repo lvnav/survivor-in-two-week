@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-const DEFAULT_TOTAL_LIFE = 100
+const DEFAULT_TOTAL_LIFE: int = 100
+const BASE_SPEED: float = 100.0
 
 @export var bolt: PackedScene
 @export var bolts: Array
@@ -11,13 +12,16 @@ const DEFAULT_TOTAL_LIFE = 100
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 
 var player_state: String
-var speed: float = 100.0
-
+var speed_modifier: float = 0.
+var has_piercing_projectile: bool = false
+var local_game_state: String
 
 signal total_life_change
 signal remaining_life_change
+signal has_no_hp
 
 func _ready() -> void:
+	hide()
 	_update_total_life(DEFAULT_TOTAL_LIFE)
 	_update_remaining_life(DEFAULT_TOTAL_LIFE)
 
@@ -25,6 +29,8 @@ func _process(_delta: float) -> void:
 	pass
 
 func _physics_process(_delta: float) -> void:
+	if local_game_state != "play":
+		return
 	_move()
 	_aim()
 	
@@ -34,7 +40,7 @@ func _move() -> void:
 		player_state = "idle"
 	else:
 		player_state = "move"
-	velocity = direction * speed
+	velocity = direction * (BASE_SPEED + (BASE_SPEED * speed_modifier / 100))
 	move_and_slide()
 	
 func _aim() -> void:
@@ -42,12 +48,15 @@ func _aim() -> void:
 	
 func _shoot() -> void:
 	var fired_bolt = bolt.instantiate()
-	fired_bolt.position = to_global(position)
+	fired_bolt.position = position
 	fired_bolt.direction = (ray_cast_2d.target_position).normalized()
+	fired_bolt.shoot_origin = self
 	bolts.append(fired_bolt)
 	get_tree().current_scene.add_child(fired_bolt)
 
 func _on_attack_timer_timeout() -> void:
+	if local_game_state != "play":
+		return
 	_shoot()
 
 func _update_total_life(new_total_life: int) -> void:
@@ -57,6 +66,8 @@ func _update_total_life(new_total_life: int) -> void:
 func _update_remaining_life(new_remaining_life: int) -> void:
 	remaining_life = new_remaining_life
 	remaining_life_change.emit(remaining_life)
+	if (remaining_life <= 0):
+		has_no_hp.emit()
 
 func _on_hit_area_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
@@ -64,19 +75,30 @@ func _on_hit_area_area_entered(area: Area2D) -> void:
 
 func upgrade(choice: Dictionary) -> void:
 	if choice["type"] == "skill":
-		pass
+		if choice["skill_name"] == "piercing_projectile":
+			has_piercing_projectile = true
+		else:
+			assert(false, "Please handle missing case")
 	elif choice["type"] == "up_stat":
 		if choice["stat"] == "damage":
 			pass
 		elif choice["stat"] == "move_speed":
-			speed = speed * (1 + choice["modifier_in_percent"] /100)
+			speed_modifier += choice["modifier_in_percent"]
 		else:
 			assert(false, "Please handle missing case")
 	else:
 		assert(false, "Please handle missing case")
 	pass
 
+func start(pos: Vector2):
+	position = pos
+	remaining_life = DEFAULT_TOTAL_LIFE
+	show()
+	$CollisionShape2D.disabled = false
+	
+func die():
+	hide()
+	$CollisionShape2D.disabled = true
 
-func _on_button_pressed() -> void:
-	print("alors>")
-	pass # Replace with function body.
+func _on_game_state_change(game_state: String) -> void:
+	local_game_state = game_state

@@ -1,22 +1,31 @@
-[gd_scene load_steps=7 format=3 uid="uid://byysobtogm3ah"]
+[gd_scene load_steps=10 format=3 uid="uid://byysobtogm3ah"]
 
 [ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://scenes/level/level.tscn" id="1_o20hb"]
+[ext_resource type="Texture2D" uid="uid://bsasecdsi31qn" path="res://assets/background.png" id="1_ri5g6"]
 [ext_resource type="PackedScene" uid="uid://clpovqi64r52s" path="res://scenes/player/player.tscn" id="2_83sjk"]
-[ext_resource type="Script" path="res://scenes/level/level.gd" id="2_4406g"]
+[ext_resource type="Script" path="res://scenes/root.gd" id="2_yuxtj"]
 [ext_resource type="PackedScene" uid="uid://bjrx1run31mnd" path="res://scenes/hud/hud.tscn" id="4_5wddh"]
 [ext_resource type="PackedScene" uid="uid://shmhpdkecxih" path="res://scenes/enemy/enemy.tscn" id="4_wc78t"]
-[ext_resource type="PackedScene" uid="uid://b0ybtgefw4cm4" path="res://button_test.tscn" id="6_5itjl"]
+[ext_resource type="PackedScene" uid="uid://crguvm4m6ew6y" path="res://scenes/start_menu/start_menu.tscn" id="6_60v1s"]
+[ext_resource type="PackedScene" uid="uid://b04o5h6jfwr0" path="res://scenes/GameOverMenu/GameOverMenu.tscn" id="8_pny4r"]
+[ext_resource type="AudioStream" uid="uid://dxotkfefgrtii" path="res://audios/Temple of Pixels-1.mp3" id="9_rvx7w"]
 
-[node name="Root" type="Node"]
+[node name="Root" type="Sprite2D"]
+position = Vector2(960, 540)
+texture = ExtResource("1_ri5g6")
+script = ExtResource("2_yuxtj")
+
+[node name="StartMenu" parent="." instance=ExtResource("6_60v1s")]
+offset_left = -960.0
+offset_top = -548.5
+offset_right = -960.0
+offset_bottom = -548.5
 
 [node name="level" parent="." instance=ExtResource("1_o20hb")]
-visible = false
-position = Vector2(960, 540)
-script = ExtResource("2_4406g")
+position = Vector2(-13, 0)
 enemy = ExtResource("4_wc78t")
 
 [node name="Player" parent="level" instance=ExtResource("2_83sjk")]
-visible = false
 
 [node name="HUD" parent="level" instance=ExtResource("4_5wddh")]
 offset_left = -139.0
@@ -24,14 +33,22 @@ offset_top = 320.0
 offset_right = -139.0
 offset_bottom = 320.0
 
-[node name="Enemy" parent="level" instance=ExtResource("4_wc78t")]
-visible = false
-position = Vector2(-1153, 0)
+[node name="GameOverMenu" parent="." instance=ExtResource("8_pny4r")]
 
-[node name="Button" parent="." instance=ExtResource("6_5itjl")]
+[node name="MainAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("9_rvx7w")
+autoplay = true
+parameters/looping = true
 
+[connection signal="game_state_change" from="." to="StartMenu" method="_on_game_state_change"]
+[connection signal="game_state_change" from="." to="level" method="_on_game_state_change"]
+[connection signal="game_state_change" from="." to="level/Player" method="_on_game_state_change"]
+[connection signal="game_state_change" from="." to="GameOverMenu" method="_on_game_state_change"]
+[connection signal="start_game" from="StartMenu" to="." method="_on_start_game"]
 [connection signal="level_up" from="level" to="level/HUD" method="_on_level_up"]
+[connection signal="has_no_hp" from="level/Player" to="." method="_on_player_has_no_hp"]
 [connection signal="remaining_life_change" from="level/Player" to="level/HUD" method="_on_player_remaining_life_change"]
 [connection signal="total_life_change" from="level/Player" to="level/HUD" method="_on_player_total_life_change"]
 [connection signal="gui_input" from="level/HUD" to="level/HUD" method="_on_gui_input"]
-[connection signal="die" from="level/Enemy" to="level/HUD" method="_on_enemy_die"]
+[connection signal="restart_game_pressed" from="GameOverMenu" to="." method="_on_restart_game_pressed"]

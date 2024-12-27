@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjrx1run31mnd"]
+[gd_scene load_steps=2 format=3 uid="uid://bjrx1run31mnd"]
 
 [ext_resource type="Script" path="res://scenes/hud/hud.gd" id="1_x335j"]
-[ext_resource type="Script" path="res://scenes/hud/level_up_menu.gd" id="2_g64fo"]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -45,7 +44,6 @@ text = "0"
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("2_g64fo")
 
 [node name="LevelUpCard" type="Control" parent="."]
 anchors_preset = 0
