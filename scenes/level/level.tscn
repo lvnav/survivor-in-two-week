@@ -1,6 +1,5 @@
-[gd_scene load_steps=7 format=3 uid="uid://bsbrbouhigy8o"]
+[gd_scene load_steps=6 format=3 uid="uid://bsbrbouhigy8o"]
 
-[ext_resource type="Script" path="res://scenes/root.gd" id="2_pvoec"]
 [ext_resource type="Texture2D" uid="uid://bsasecdsi31qn" path="res://assets/background.png" id="4_msh43"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_oeg43"]
@@ -21,7 +20,6 @@ b = Vector2(705, 916)
 
 [node name="level" type="Sprite2D"]
 texture = ExtResource("4_msh43")
-script = ExtResource("2_pvoec")
 
 [node name="MapBorder" type="StaticBody2D" parent="."]
 

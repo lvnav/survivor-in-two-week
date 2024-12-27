@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjrx1run31mnd"]
+
+[ext_resource type="Script" path="res://scenes/hud/remaining_life.gd" id="1_sveex"]
+[ext_resource type="Script" path="res://scenes/hud/hud.gd" id="1_x335j"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_x335j")
+
+[node name="RemainingLife" type="Label" parent="."]
+layout_mode = 2
+scale = Vector2(16.48, 1)
+script = ExtResource("1_sveex")
+
+[node name="VSeparator" type="VSeparator" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_right = 22.0
+offset_bottom = 40.0
+
+[node name="TotalLife" type="Label" parent="."]
+layout_mode = 0
+offset_left = 21.0
+offset_right = 22.0
+offset_bottom = 23.0
+scale = Vector2(15.1563, 1.17448)

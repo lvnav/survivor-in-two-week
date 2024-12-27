@@ -7,7 +7,8 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-func _process(delta: float) -> void:
-	set_point_position(0, player.position)
-	set_point_position(1, ray_cast_2d.target_position)
+func _process(_delta: float) -> void:
+	set_point_position(0, player.position.normalized())
+	set_point_position(1, ray_cast_2d.target_position.limit_length(400))
+	
 	pass

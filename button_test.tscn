@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0ybtgefw4cm4"]
+
+[ext_resource type="Script" path="res://scenes/button.gd" id="1_bmnay"]
+[ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://scenes/level/level.tscn" id="1_qu0lf"]
+[ext_resource type="PackedScene" uid="uid://clpovqi64r52s" path="res://scenes/player/player.tscn" id="2_wrkp6"]
+[ext_resource type="PackedScene" uid="uid://bjrx1run31mnd" path="res://scenes/hud/hud.tscn" id="2_x6p1o"]
+[ext_resource type="PackedScene" uid="uid://shmhpdkecxih" path="res://scenes/enemy/enemy.tscn" id="4_hvofo"]
+
+[node name="Node" type="Node2D"]
+
+[node name="level" parent="." instance=ExtResource("1_qu0lf")]
+position = Vector2(963, 554)
+
+[node name="Player" parent="level" instance=ExtResource("2_wrkp6")]
+
+[node name="HUD" parent="level" instance=ExtResource("2_x6p1o")]
+offset_left = -963.0
+offset_top = -554.0
+offset_right = -963.0
+offset_bottom = -554.0
+
+[node name="Enemy" parent="level" instance=ExtResource("4_hvofo")]
+
+[node name="Button" type="Button" parent="."]
+offset_left = 451.0
+offset_top = 842.0
+offset_right = 489.0
+offset_bottom = 873.0
+text = "test"
+script = ExtResource("1_bmnay")
+
+[connection signal="button_down" from="Button" to="Button" method="_on_button_down"]
+[connection signal="button_up" from="Button" to="Button" method="_on_button_up"]
+[connection signal="gui_input" from="Button" to="Button" method="_on_gui_input"]
+[connection signal="mouse_entered" from="Button" to="Button" method="_on_mouse_entered"]
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

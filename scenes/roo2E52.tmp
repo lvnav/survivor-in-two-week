@@ -1,22 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://byysobtogm3ah"]
+[gd_scene load_steps=6 format=3 uid="uid://byysobtogm3ah"]
 
 [ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://scenes/level/level.tscn" id="1_o20hb"]
 [ext_resource type="PackedScene" uid="uid://clpovqi64r52s" path="res://scenes/player/player.tscn" id="2_83sjk"]
 [ext_resource type="Script" path="res://scenes/level/level.gd" id="2_4406g"]
 [ext_resource type="PackedScene" uid="uid://bjrx1run31mnd" path="res://scenes/hud/hud.tscn" id="4_5wddh"]
 [ext_resource type="PackedScene" uid="uid://shmhpdkecxih" path="res://scenes/enemy/enemy.tscn" id="4_wc78t"]
-[ext_resource type="PackedScene" uid="uid://b0ybtgefw4cm4" path="res://button_test.tscn" id="6_5itjl"]
 
-[node name="Root" type="Node"]
+[node name="Root" type="Node2D"]
 
 [node name="level" parent="." instance=ExtResource("1_o20hb")]
-visible = false
 position = Vector2(960, 540)
 script = ExtResource("2_4406g")
 enemy = ExtResource("4_wc78t")
 
 [node name="Player" parent="level" instance=ExtResource("2_83sjk")]
-visible = false
 
 [node name="HUD" parent="level" instance=ExtResource("4_5wddh")]
 offset_left = -139.0
@@ -25,13 +22,8 @@ offset_right = -139.0
 offset_bottom = 320.0
 
 [node name="Enemy" parent="level" instance=ExtResource("4_wc78t")]
-visible = false
 position = Vector2(-1153, 0)
 
-[node name="Button" parent="." instance=ExtResource("6_5itjl")]
-
-[connection signal="level_up" from="level" to="level/HUD" method="_on_level_up"]
 [connection signal="remaining_life_change" from="level/Player" to="level/HUD" method="_on_player_remaining_life_change"]
 [connection signal="total_life_change" from="level/Player" to="level/HUD" method="_on_player_total_life_change"]
-[connection signal="gui_input" from="level/HUD" to="level/HUD" method="_on_gui_input"]
 [connection signal="die" from="level/Enemy" to="level/HUD" method="_on_enemy_die"]

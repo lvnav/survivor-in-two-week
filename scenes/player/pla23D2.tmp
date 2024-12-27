@@ -13,10 +13,12 @@ radius = 260.0
 radius = 258.94
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
-visibility_layer = 2
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_cslsb")
 bolt = ExtResource("2_1cu1m")
+bolts = null
+total_life = null
+remaining_life = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("3_owe6f")

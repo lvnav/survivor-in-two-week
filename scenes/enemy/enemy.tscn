@@ -7,6 +7,7 @@
 radius = 55.5428
 
 [node name="Enemy" type="Area2D" groups=["enemy"]]
+visibility_layer = 2
 script = ExtResource("1_batpi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -17,3 +18,4 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_sr5xb")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="die" from="." to="." method="_on_die"]
