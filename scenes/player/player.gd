@@ -40,6 +40,12 @@ func _move() -> void:
 		player_state = "idle"
 	else:
 		player_state = "move"
+	
+	if direction.x < 0:
+		$Sprite2D.flip_h = true
+	else:
+		$Sprite2D.flip_h = false
+		
 	velocity = direction * (BASE_SPEED + (BASE_SPEED * speed_modifier / 100))
 	move_and_slide()
 	

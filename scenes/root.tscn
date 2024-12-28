@@ -36,7 +36,7 @@ offset_bottom = 320.0
 [node name="GameOverMenu" parent="." instance=ExtResource("8_pny4r")]
 
 [node name="MainAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-process_mode = 3
+process_mode = 4
 stream = ExtResource("9_rvx7w")
 autoplay = true
 parameters/looping = true

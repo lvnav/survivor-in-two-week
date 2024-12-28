@@ -10,6 +10,9 @@ func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
+	if direction.x < position.x:
+		$Sprite2D.flip_h = true
+	
 	position = position.move_toward(direction, delta * 100)
 
 func _on_screen_exited() -> void:
