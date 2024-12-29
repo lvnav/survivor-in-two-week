@@ -59,7 +59,8 @@ func _move() -> void:
 	else:
 		sprite_2d.flip_h = false
 	
-	if (direction.x != 0 or direction.y != 0) and Input.is_action_pressed("dodge") and release_dodge_timer.is_stopped():
+	if (direction.x != 0 or direction.y != 0) and Input.is_action_just_pressed("dodge") and release_dodge_timer.is_stopped():
+		print('cc')
 		dodge_timer.start()
 		dodge_move_speed_boost = BASE_SPEED
 		

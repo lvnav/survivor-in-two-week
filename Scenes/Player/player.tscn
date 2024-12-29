@@ -48,7 +48,6 @@ shape = SubResource("CircleShape2D_382uy")
 wait_time = 0.5
 
 [node name="ReleaseDodgeTimer" type="Timer" parent="."]
-wait_time = 0.2
 
 [connection signal="attack_speed_modifier_has_changed" from="." to="AttackTimer" method="_on_player_attack_speed_modifier_has_changed"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
