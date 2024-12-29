@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://clpovqi64r52s"]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_cslsb"]
+[ext_resource type="PackedScene" uid="uid://d0lgfe3nmh2ok" path="res://scenes/bolt/bolt.tscn" id="2_1cu1m"]
+[ext_resource type="Texture2D" uid="uid://olkcocyxxiir" path="res://assets/character.jpg" id="3_owe6f"]
+[ext_resource type="Script" path="res://scenes/player/ray_cast_2d.gd" id="4_313ef"]
+[ext_resource type="Script" path="res://scenes/player/line_2d.gd" id="5_jwlo7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o44a6"]
+radius = 260.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_382uy"]
+radius = 258.94
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_cslsb")
+bolt = ExtResource("2_1cu1m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_owe6f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_o44a6")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+script = ExtResource("4_313ef")
+
+[node name="Line2D" type="Line2D" parent="RayCast2D"]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 20.0
+default_color = Color(1, 0, 0, 1)
+script = ExtResource("5_jwlo7")
+
+[node name="AttackTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource("CircleShape2D_382uy")
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="area_entered" from="HitArea" to="." method="_on_hit_area_area_entered"]
