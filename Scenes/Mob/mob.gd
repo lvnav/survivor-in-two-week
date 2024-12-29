@@ -5,6 +5,7 @@ class_name Mob extends Area2D
 
 var is_touched_by_bullet: bool = false
 var damage: int = 20
+var life: int = 40
 
 signal die
 
@@ -22,5 +23,9 @@ func _on_screen_exited() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_dmg_projectile"):
-		die.emit()
-		queue_free()
+		var bolt: Bolt = area
+		life -= bolt.damage
+		
+		if life <= 0:
+			die.emit()
+			queue_free()

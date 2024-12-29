@@ -4,27 +4,10 @@ class_name Level extends Node2D
 @onready var spawns: Node2D = $Spawns
 @onready var hud: Hud = $HUD
 @onready var root: Root = $".."
+@onready var up_handler: UpHandler = $UpHandler
 
 @export var mob : PackedScene
 @export var mobs : Array[Mob]
-
-const UP_CHOICE: Array[Dictionary] = [
-	{
-		"type": "up_stat",
-		"stat": "damage",
-		"modifier_in_percent": 10.
-	},
-	{
-		"type": "up_stat",
-		"stat": "move_speed",
-		"modifier_in_percent": 20.
-	},
-	{
-		"type": "skill",
-		"skill_type": "range",
-		"skill_name": "piercing_projectile"
-	}
-]
 
 var score_value: int = 0
 var need_up: bool
@@ -37,7 +20,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if need_up:
 		get_tree().paused = true
-		level_up.emit(UP_CHOICE)
+		level_up.emit(up_handler.OPTIONS)
 
 func _on_mob_spawn_timeout() -> void:
 	_init_mob()
@@ -64,7 +47,7 @@ func _on_level_up_finished() -> void:
 	get_tree().paused = false
 
 func _up_button_pressed(choice: Dictionary) -> void:
-	player.upgrade(choice)
+	up_handler.upgrade(player, choice)
 	_on_level_up_finished()
 
 

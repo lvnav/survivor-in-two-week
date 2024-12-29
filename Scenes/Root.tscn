@@ -24,6 +24,8 @@ offset_bottom = -548.5
 position = Vector2(-13, 0)
 
 [node name="Player" parent="Level" instance=ExtResource("6_rbrhd")]
+total_life = 0
+remaining_life = 0
 
 [node name="HUD" parent="Level" instance=ExtResource("7_e6ye5")]
 offset_left = -139.0

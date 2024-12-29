@@ -1,10 +1,11 @@
-extends Node
+class_name UpHandler extends Node
 
+# float modifiers are percent
 const OPTIONS: Array[Dictionary] = [
 	{
 		"type": "stat",
 		"stat": "attack_damage",
-		"modifier": 10.,
+		"modifier": 50.,
 		"rarity": 1
 	},
 	{
@@ -20,49 +21,46 @@ const OPTIONS: Array[Dictionary] = [
 		"rarity": 1
 	},
 	{
+		"type": "stat",
+		"stat": "leech",
+		"modifier": 5.,
+		"rarity": 2
+	},
+	{
 		"type": "skill",
 		"name": "piercing_projectile",
 		"rarity": 3
 	},
-	{
-		"type": "skill",
-		"name": "roll",
-		"rarity": 3
-	},
-	{
-		"type": "skill",
-		"name": "leech",
-		"rarity": 2
-	},
-	{
-		"type": "skill",
-		"name": "regen_on_closed_dodge",
-		"rarity": 2
-	},
+	#{
+		#"type": "skill",
+		#"name": "regen_on_closed_dodge",
+		#"modifier": 3.,
+		#"rarity": 2
+	#},
 ]
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
 
 func upgrade(player: Player, choice: Dictionary) -> void:
 	if choice["type"] == "skill":
-		if choice["skill_name"] == "piercing_projectile":
-			player.has_piercing_projectile = true
-		else:
-			assert(false, "Please handle missing case")
+		match choice["name"]:
+			"piercing_projectile":
+				player.has_piercing_projectile = true
+			_:
+				assert(false, "Please handle missing case")
 	elif choice["type"] == "stat":
-		if choice["stat"] == "damage":
-			pass
-		elif choice["stat"] == "move_speed":
-			player.speed_modifier += choice["modifier_in_percent"]
-		else:
-			assert(false, "Please handle missing case")
+		var modifier: float = choice["modifier"]
+		
+		match choice["stat"]:
+			"attack_damage":
+				player.attack_damage_modifier += choice["modifier"]
+			"attack_speed":
+				player.set_attack_speed_modifier(player.attack_speed_modifier + modifier)
+			"move_speed":
+				player.move_speed_modifier += choice["modifier"]
+			"leech":
+				player.leech_modifier += choice["modifier"]
+			"regen_on_closed_dodge":
+				player.regen_on_closed_dodge_modifier += choice["modifier"]
+			_:
+				assert(false, "Please handle missing case")
 	else:
 		assert(false, "Please handle missing case")
-	pass
