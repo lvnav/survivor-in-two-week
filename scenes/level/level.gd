@@ -5,8 +5,8 @@ extends Node2D
 @onready var hud: Control = $HUD
 @onready var root: Sprite2D = $".."
 
-@export var enemy : PackedScene
-@export var enemies : Array
+@export var mob : PackedScene
+@export var mobs : Array
 
 const UP_CHOICE = [
 	{
@@ -41,9 +41,9 @@ func _process(_delta: float) -> void:
 		level_up.emit(UP_CHOICE)
 
 func _move_mobs() -> void: 
-	for local_enemy in enemies:
-		if is_instance_valid(local_enemy):
-			local_enemy.direction = player.position
+	for local_mob in mobs:
+		if is_instance_valid(local_mob):
+			local_mob.direction = player.position
 
 func _on_mob_spawn_timeout() -> void:
 	_init_mob()
@@ -52,14 +52,14 @@ func _init_mob() -> void:
 	if root.game_state != root.GAME_STATE_PLAY:
 		return
 
-	var new_enemy = enemy.instantiate()
-	new_enemy.die.connect(self._on_enemy_die)
+	var new_mob = mob.instantiate()
+	new_mob.die.connect(self._on_mob_die)
 	var spawner_position: Node2D = spawns.get_child(randi_range(0, spawns.get_child_count()-1))
-	new_enemy.position = spawner_position.position
-	add_child(new_enemy)
-	enemies.append(new_enemy)
+	new_mob.position = spawner_position.position
+	add_child(new_mob)
+	mobs.append(new_mob)
 
-func _on_enemy_die() -> void:
+func _on_mob_die() -> void:
 	score_value += 1
 	if (score_value % 5 == 0):
 		need_up = true
@@ -83,7 +83,7 @@ func _on_game_state_change(game_state: String) -> void:
 func new_game() -> void:
 	get_tree().paused = false
 	score_value = 0
-	get_tree().call_group("enemy", "queue_free")
+	get_tree().call_group("mob", "queue_free")
 	player.start(Vector2(0,0))
 
 func end_game() -> void:
