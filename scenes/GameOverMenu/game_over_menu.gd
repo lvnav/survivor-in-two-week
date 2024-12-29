@@ -5,7 +5,7 @@ signal restart_game_pressed
 func _ready() -> void:
 	hide()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 func _on_game_state_change(game_state: String) -> void:

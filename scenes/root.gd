@@ -8,7 +8,7 @@ var game_state: String = GAME_STATE_START
 
 signal game_state_change
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 func _on_start_game() -> void:

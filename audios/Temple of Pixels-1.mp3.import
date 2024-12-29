@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://dxotkfefgrtii"
-path="res://.godot/imported/Temple of Pixels-1.mp3-7a5374ca5ecd62a20ec512098675ea32.mp3str"
+path="res://.godot/imported/Temple of Pixels-1.mp3-5341f2b5bc1896535d4127d968e65230.mp3str"
 
 [deps]
 
-source_file="res://audios/Temple of Pixels-1.mp3"
-dest_files=["res://.godot/imported/Temple of Pixels-1.mp3-7a5374ca5ecd62a20ec512098675ea32.mp3str"]
+source_file="res://Audios/Temple of Pixels-1.mp3"
+dest_files=["res://.godot/imported/Temple of Pixels-1.mp3-5341f2b5bc1896535d4127d968e65230.mp3str"]
 
 [params]
 

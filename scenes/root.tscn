@@ -1,43 +1,43 @@
 [gd_scene load_steps=10 format=3 uid="uid://byysobtogm3ah"]
 
-[ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://scenes/level/level.tscn" id="1_o20hb"]
-[ext_resource type="Texture2D" uid="uid://bsasecdsi31qn" path="res://assets/background.png" id="1_ri5g6"]
-[ext_resource type="PackedScene" uid="uid://clpovqi64r52s" path="res://scenes/player/player.tscn" id="2_83sjk"]
-[ext_resource type="Script" path="res://scenes/root.gd" id="2_yuxtj"]
-[ext_resource type="PackedScene" uid="uid://bjrx1run31mnd" path="res://scenes/hud/hud.tscn" id="4_5wddh"]
-[ext_resource type="PackedScene" uid="uid://shmhpdkecxih" path="res://scenes/enemy/enemy.tscn" id="4_wc78t"]
-[ext_resource type="PackedScene" uid="uid://crguvm4m6ew6y" path="res://scenes/start_menu/start_menu.tscn" id="6_60v1s"]
-[ext_resource type="PackedScene" uid="uid://b04o5h6jfwr0" path="res://scenes/GameOverMenu/GameOverMenu.tscn" id="8_pny4r"]
-[ext_resource type="AudioStream" uid="uid://dxotkfefgrtii" path="res://audios/Temple of Pixels-1.mp3" id="9_rvx7w"]
+[ext_resource type="Texture2D" uid="uid://bsasecdsi31qn" path="res://Assets/background.png" id="1_ihn7v"]
+[ext_resource type="Script" path="res://Scenes/root.gd" id="2_emk15"]
+[ext_resource type="PackedScene" uid="uid://crguvm4m6ew6y" path="res://Scenes/StartMenu/start_menu.tscn" id="3_wkcoi"]
+[ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://Scenes/Level/Level.tscn" id="4_6n0bp"]
+[ext_resource type="PackedScene" uid="uid://shmhpdkecxih" path="res://Scenes/Mob/Mob.tscn" id="5_o4ndc"]
+[ext_resource type="PackedScene" uid="uid://clpovqi64r52s" path="res://Scenes/Player/player.tscn" id="6_rbrhd"]
+[ext_resource type="PackedScene" uid="uid://bjrx1run31mnd" path="res://Scenes/Hud/Hud.tscn" id="7_e6ye5"]
+[ext_resource type="PackedScene" uid="uid://b04o5h6jfwr0" path="res://Scenes/GameOverMenu/GameOverMenu.tscn" id="8_gsu11"]
+[ext_resource type="AudioStream" uid="uid://dxotkfefgrtii" path="res://Audios/Temple of Pixels-1.mp3" id="9_sgsjc"]
 
 [node name="Root" type="Sprite2D"]
 position = Vector2(960, 540)
-texture = ExtResource("1_ri5g6")
-script = ExtResource("2_yuxtj")
+texture = ExtResource("1_ihn7v")
+script = ExtResource("2_emk15")
 
-[node name="StartMenu" parent="." instance=ExtResource("6_60v1s")]
+[node name="StartMenu" parent="." instance=ExtResource("3_wkcoi")]
 offset_left = -960.0
 offset_top = -548.5
 offset_right = -960.0
 offset_bottom = -548.5
 
-[node name="level" parent="." instance=ExtResource("1_o20hb")]
+[node name="level" parent="." instance=ExtResource("4_6n0bp")]
 position = Vector2(-13, 0)
-enemy = ExtResource("4_wc78t")
+enemy = ExtResource("5_o4ndc")
 
-[node name="Player" parent="level" instance=ExtResource("2_83sjk")]
+[node name="Player" parent="level" instance=ExtResource("6_rbrhd")]
 
-[node name="HUD" parent="level" instance=ExtResource("4_5wddh")]
+[node name="HUD" parent="level" instance=ExtResource("7_e6ye5")]
 offset_left = -139.0
 offset_top = 320.0
 offset_right = -139.0
 offset_bottom = 320.0
 
-[node name="GameOverMenu" parent="." instance=ExtResource("8_pny4r")]
+[node name="GameOverMenu" parent="." instance=ExtResource("8_gsu11")]
 
 [node name="MainAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 4
-stream = ExtResource("9_rvx7w")
+stream = ExtResource("9_sgsjc")
 autoplay = true
 parameters/looping = true
 
