@@ -1,8 +1,10 @@
-extends Area2D
+class_name Mob extends Area2D
 
 @export var direction: Vector2 = Vector2(position)
+@onready var sprite_2d: Sprite2D = $Sprite2D
+
 var is_touched_by_bullet: bool = false
-var damage = 20
+var damage: int = 20
 
 signal die
 
@@ -11,7 +13,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if direction.x < position.x:
-		$Sprite2D.flip_h = true
+		sprite_2d.flip_h = true
 	
 	position = position.move_toward(direction, delta * 100)
 

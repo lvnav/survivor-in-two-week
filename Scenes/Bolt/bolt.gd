@@ -1,8 +1,8 @@
-extends Area2D
+class_name Bolt extends Area2D
 
 var direction: Vector2 = Vector2.RIGHT
 var speed: float = 300
-var shoot_origin
+var shoot_origin: Player
 
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta

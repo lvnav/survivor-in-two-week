@@ -1,15 +1,17 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
 const DEFAULT_TOTAL_LIFE: int = 100
 const BASE_SPEED: float = 100.0
 
 @export var bolt: PackedScene
-@export var bolts: Array
+@export var bolts: Array[Bolt]
 @export var total_life: int
 @export var remaining_life: int
 
 @onready var attack_timer: Timer = $AttackTimer
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
+@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 var player_state: String
 var speed_modifier: float = 0.
@@ -35,16 +37,16 @@ func _physics_process(_delta: float) -> void:
 	_aim()
 	
 func _move() -> void:
-	var direction = Input.get_vector("user_move_left", "user_move_right", "user_move_up", "user_move_down")
+	var direction: Vector2 = Input.get_vector("user_move_left", "user_move_right", "user_move_up", "user_move_down")
 	if (direction.x == 0 and direction.y == 0):
 		player_state = "idle"
 	else:
 		player_state = "move"
 	
 	if direction.x < 0:
-		$Sprite2D.flip_h = true
+		sprite_2d.flip_h = true
 	else:
-		$Sprite2D.flip_h = false
+		sprite_2d.flip_h = false
 		
 	velocity = direction * (BASE_SPEED + (BASE_SPEED * speed_modifier / 100))
 	move_and_slide()
@@ -53,7 +55,7 @@ func _aim() -> void:
 	ray_cast_2d.target_position = to_global(get_viewport().get_mouse_position())
 	
 func _shoot() -> void:
-	var fired_bolt = bolt.instantiate()
+	var fired_bolt: Bolt = bolt.instantiate()
 	fired_bolt.position = position
 	fired_bolt.direction = (ray_cast_2d.target_position).normalized()
 	fired_bolt.shoot_origin = self
@@ -76,8 +78,9 @@ func _update_remaining_life(new_remaining_life: int) -> void:
 		has_no_hp.emit()
 
 func _on_hit_area_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy"):
-		_update_remaining_life(remaining_life - area.damage)
+	if area.is_in_group("enemy") and area is Mob:
+		var mob: Mob = area
+		_update_remaining_life(remaining_life - mob.damage)
 
 func upgrade(choice: Dictionary) -> void:
 	if choice["type"] == "skill":
@@ -96,15 +99,15 @@ func upgrade(choice: Dictionary) -> void:
 		assert(false, "Please handle missing case")
 	pass
 
-func start(pos: Vector2):
+func start(pos: Vector2) -> void:
 	position = pos
 	remaining_life = DEFAULT_TOTAL_LIFE
 	show()
-	$CollisionShape2D.disabled = false
+	collision_shape_2d.disabled = false
 	
-func die():
+func die() -> void:
 	hide()
-	$CollisionShape2D.disabled = true
+	collision_shape_2d.disabled = true
 
 func _on_game_state_change(game_state: String) -> void:
 	local_game_state = game_state

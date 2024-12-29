@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_mw3tk"]
 radius = 45.0
 
-[node name="Enemy" type="Area2D" groups=["enemy"]]
+[node name="Mob" type="Area2D" groups=["enemy"]]
 visibility_layer = 2
 script = ExtResource("1_batpi")
 

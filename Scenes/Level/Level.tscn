@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsbrbouhigy8o"]
+[gd_scene load_steps=8 format=3 uid="uid://bsbrbouhigy8o"]
 
 [ext_resource type="Script" path="res://Scenes/Level/level.gd" id="1_ieq04"]
+[ext_resource type="PackedScene" uid="uid://shmhpdkecxih" path="res://Scenes/Mob/Mob.tscn" id="2_w1lrs"]
+[ext_resource type="Script" path="res://Scenes/Level/up_handler.gd" id="3_pod3h"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_oeg43"]
 a = Vector2(243, -188)
@@ -18,8 +20,9 @@ b = Vector2(706, 924)
 a = Vector2(1229, 911)
 b = Vector2(705, 916)
 
-[node name="level" type="Node2D"]
+[node name="Level" type="Node2D"]
 script = ExtResource("1_ieq04")
+mob = ExtResource("2_w1lrs")
 
 [node name="MapBorder" type="StaticBody2D" parent="."]
 
@@ -55,5 +58,8 @@ position = Vector2(8, 412)
 
 [node name="SpawnD" type="Node2D" parent="Spawns"]
 position = Vector2(-472, 267)
+
+[node name="UpHandler" type="Node" parent="."]
+script = ExtResource("3_pod3h")
 
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timeout"]

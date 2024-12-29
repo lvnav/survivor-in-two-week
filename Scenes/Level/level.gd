@@ -1,14 +1,14 @@
-extends Node2D
+class_name Level extends Node2D
 
-@onready var player: CharacterBody2D = $Player
+@onready var player: Player = $Player
 @onready var spawns: Node2D = $Spawns
-@onready var hud: Control = $HUD
-@onready var root: Sprite2D = $".."
+@onready var hud: Hud = $HUD
+@onready var root: Root = $".."
 
 @export var mob : PackedScene
-@export var mobs : Array
+@export var mobs : Array[Mob]
 
-const UP_CHOICE = [
+const UP_CHOICE: Array[Dictionary] = [
 	{
 		"type": "up_stat",
 		"stat": "damage",
@@ -32,18 +32,12 @@ var need_up: bool
 signal level_up
 
 func _ready() -> void:
-	pass 
+	pass
 
 func _process(_delta: float) -> void:
-	_move_mobs()
 	if need_up:
 		get_tree().paused = true
 		level_up.emit(UP_CHOICE)
-
-func _move_mobs() -> void: 
-	for local_mob in mobs:
-		if is_instance_valid(local_mob):
-			local_mob.direction = player.position
 
 func _on_mob_spawn_timeout() -> void:
 	_init_mob()
@@ -52,7 +46,7 @@ func _init_mob() -> void:
 	if root.game_state != root.GAME_STATE_PLAY:
 		return
 
-	var new_mob = mob.instantiate()
+	var new_mob: Mob = mob.instantiate()
 	new_mob.die.connect(self._on_mob_die)
 	var spawner_position: Node2D = spawns.get_child(randi_range(0, spawns.get_child_count()-1))
 	new_mob.position = spawner_position.position
@@ -66,7 +60,7 @@ func _on_mob_die() -> void:
 
 func _on_level_up_finished() -> void:
 	need_up = false
-	$HUD.clear_up_interface()
+	hud.clear_up_interface()
 	get_tree().paused = false
 
 func _up_button_pressed(choice: Dictionary) -> void:
