@@ -1,4 +1,4 @@
-class_name Mob extends RigidBody2D
+class_name Mob extends Area2D
 
 @export var direction: Vector2 = Vector2(position)
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -19,9 +19,9 @@ func _physics_process(delta: float) -> void:
 func _on_screen_exited() -> void:
 	queue_free()
 
-func _on_body_entered(body: Node) -> void:
-	if body.is_in_group("player_dmg_projectile"):
-		var bolt: Bolt = body
+func _on_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player_dmg_projectile"):
+		var bolt: Bolt = area
 		life -= bolt.damage
 		
 		if life <= 0:

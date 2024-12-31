@@ -1,6 +1,6 @@
 class_name Player extends CharacterBody2D
 
-var Bolta = preload("res://Scenes/Bolt/Bolt.tscn")
+var BoltPacked: PackedScene = preload("res://Scenes/Bolt/Bolt.tscn")
 const DEFAULT_TOTAL_LIFE: int = 100
 const BASE_SPEED: float = 100.0
 
@@ -15,7 +15,7 @@ const BASE_SPEED: float = 100.0
 @onready var dodge_timer: Timer = $DodgeTimer
 @onready var release_dodge_timer: Timer = $ReleaseDodgeTimer
 @onready var camera_2d: Camera2D = $Camera2D
-@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var hit_box_collision_shape: CollisionShape2D = $HitBox/HitBoxCollisionShape
 
 var local_game_state: String
 var player_state: String
@@ -78,15 +78,15 @@ func _aim() -> void:
 func _on_attack_timer_timeout() -> void:
 	if local_game_state != "play":
 		return
-	shoot.emit(Bolta, get_angle_to(ray_cast_2d.target_position), position)
+	shoot.emit(BoltPacked, get_angle_to(ray_cast_2d.target_position), position, self)
 
 func _zoom() -> void:
 	if (Input.is_action_just_pressed("zoom_in")):
-		var zoom_val = camera_2d.zoom.x + .1
+		var zoom_val: float = camera_2d.zoom.x + .1
 		camera_2d.zoom = Vector2(zoom_val, zoom_val)
 		pass
 	if (Input.is_action_just_pressed("zoom_out")):
-		var zoom_val = camera_2d.zoom.x - .1
+		var zoom_val: float = camera_2d.zoom.x - .1
 		camera_2d.zoom = Vector2(zoom_val, zoom_val)
 		pass
 
@@ -104,20 +104,15 @@ func set_attack_speed_modifier(new_attack_speed_modifier: float) -> void:
 	attack_speed_modifier = new_attack_speed_modifier
 	attack_speed_modifier_has_changed.emit(attack_speed_modifier)
 
-func _on_hit_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy"):
-		var mob = area
-		set_remaining_life(remaining_life - mob.damage)
-
 func start(pos: Vector2) -> void:
 	position = pos
 	remaining_life = DEFAULT_TOTAL_LIFE
 	show()
-	collision_shape_2d.disabled = false
+	hit_box_collision_shape.disabled = false
 	
 func die() -> void:
 	hide()
-	collision_shape_2d.disabled = true
+	hit_box_collision_shape.disabled = true
 
 func _on_game_state_change(game_state: String) -> void:
 	local_game_state = game_state
@@ -134,3 +129,9 @@ func _on_dodge_timer_timeout() -> void:
 func _on_release_dodge_timer_timeout() -> void:
 	dodge_move_speed_boost = 0
 	release_dodge_timer.stop()
+
+
+func _on_hit_box_area_entered(area: Area2D) -> void:
+	if area.is_in_group("enemy"):
+		var mob: Mob = area
+		set_remaining_life(remaining_life - mob.damage)

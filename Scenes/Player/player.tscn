@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://clpovqi64r52s"]
+[gd_scene load_steps=14 format=3 uid="uid://clpovqi64r52s"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_cslsb"]
 [ext_resource type="PackedScene" uid="uid://d0lgfe3nmh2ok" path="res://Scenes/Bolt/Bolt.tscn" id="2_1cu1m"]
@@ -38,6 +38,10 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_382uy"]
 radius = 80.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mlcig"]
+radius = 50.0
+height = 160.0
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
 y_sort_enabled = true
@@ -74,13 +78,19 @@ frame_progress = 0.284294
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CharacterBodyCollisionShape" type="CollisionShape2D" parent="."]
 y_sort_enabled = true
 scale = Vector2(1, 1)
 shape = SubResource("CircleShape2D_382uy")
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="HitBoxCollisionShape" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CapsuleShape2D_mlcig")
 
 [connection signal="attack_speed_modifier_has_changed" from="." to="AttackTimer" method="_on_player_attack_speed_modifier_has_changed"]
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="DodgeTimer" to="." method="_on_dodge_timer_timeout"]
 [connection signal="timeout" from="ReleaseDodgeTimer" to="." method="_on_release_dodge_timer_timeout"]
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

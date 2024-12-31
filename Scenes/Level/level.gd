@@ -1,6 +1,5 @@
 class_name Level extends Node2D
 
-#@onready var player: Player = $Player
 @onready var spawns: Node2D = $Spawns
 @onready var hud: Hud = $HUD
 @onready var root: Root = $".."
@@ -32,7 +31,7 @@ func _init_mob() -> void:
 	var spawner_position: Node2D = spawns.get_child(randi_range(0, spawns.get_child_count()-1))
 	new_mob.position = spawner_position.position
 	add_child(new_mob)
-	mobs.append(new_mob)
+	#mobs.append(new_mob)
 
 func _on_mob_die() -> void:
 	score_value += 1
@@ -66,12 +65,13 @@ func end_game() -> void:
 	get_tree().paused = true
 
 
-func _on_player_shoot(BoltIn, direction, location) -> void:
-	var spawned_bullet = BoltIn.instantiate()
+func _on_player_shoot(BoltPacked: PackedScene, direction: float, location: Vector2, shooter: Player) -> void:
+	var spawned_bullet: Bolt = BoltPacked.instantiate()
 	add_child(spawned_bullet)
 	spawned_bullet.rotation = direction
 	spawned_bullet.position = location
 	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)
+	spawned_bullet.shoot_origin = shooter
 	
 	#var fired_bolt: Bolt = bolt.instantiate()
 	#fired_bolt.position = position

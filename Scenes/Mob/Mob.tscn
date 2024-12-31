@@ -34,7 +34,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Mob" type="RigidBody2D" groups=["enemy"]]
+[node name="Mob" type="Area2D" groups=["enemy"]]
 visibility_layer = 2
 script = ExtResource("1_batpi")
 
@@ -46,5 +46,5 @@ position = Vector2(7, 19)
 scale = Vector2(0.402344, 0.308594)
 sprite_frames = SubResource("SpriteFrames_eqfff")
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="input_event" from="." to="." method="_on_input_event"]
