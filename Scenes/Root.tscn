@@ -1,6 +1,5 @@
-[gd_scene load_steps=9 format=3 uid="uid://byysobtogm3ah"]
+[gd_scene load_steps=8 format=3 uid="uid://byysobtogm3ah"]
 
-[ext_resource type="Texture2D" uid="uid://bsasecdsi31qn" path="res://Assets/background.png" id="1_ihn7v"]
 [ext_resource type="Script" path="res://Scenes/root.gd" id="2_emk15"]
 [ext_resource type="PackedScene" uid="uid://crguvm4m6ew6y" path="res://Scenes/StartMenu/start_menu.tscn" id="3_wkcoi"]
 [ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://Scenes/Level/Level.tscn" id="4_6n0bp"]
@@ -11,7 +10,6 @@
 
 [node name="Root" type="Sprite2D"]
 position = Vector2(960, 540)
-texture = ExtResource("1_ihn7v")
 script = ExtResource("2_emk15")
 
 [node name="StartMenu" parent="." instance=ExtResource("3_wkcoi")]
@@ -24,8 +22,6 @@ offset_bottom = -548.5
 position = Vector2(-13, 0)
 
 [node name="Player" parent="Level" instance=ExtResource("6_rbrhd")]
-total_life = 0
-remaining_life = 0
 
 [node name="HUD" parent="Level" instance=ExtResource("7_e6ye5")]
 offset_left = -139.0
