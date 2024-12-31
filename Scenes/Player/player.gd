@@ -16,6 +16,10 @@ const BASE_SPEED: float = 100.0
 @onready var release_dodge_timer: Timer = $ReleaseDodgeTimer
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var hit_box_collision_shape: CollisionShape2D = $HitBox/HitBoxCollisionShape
+@onready var state_indicator: HBoxContainer = $StateIndicator
+@onready var hit_box: Area2D = $HitBox
+@onready var character_body_collision_shape: CollisionShape2D = $CharacterBodyCollisionShape
+@onready var proc_gen_world_2: ProcGenWorld = $".."
 
 var local_game_state: String
 var player_state: String
@@ -29,6 +33,7 @@ var regen_on_closed_dodge_modifier: float = 0.
 var dodge_move_speed_boost: float = 0.
 
 var has_piercing_projectile: bool = false
+var is_burning: bool = true
 
 signal total_life_change
 signal remaining_life_change
@@ -42,6 +47,7 @@ func _ready() -> void:
 	
 	set_total_life(DEFAULT_TOTAL_LIFE)
 	set_remaining_life(DEFAULT_TOTAL_LIFE)
+	set_is_burning(true)
 
 func _physics_process(_delta: float) -> void:
 	if local_game_state != "play":
@@ -135,3 +141,24 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
 		var mob: Mob = area
 		set_remaining_life(remaining_life - mob.damage)
+
+func set_is_burning(new_is_burning: bool) -> Player:
+	is_burning = new_is_burning
+	
+	var burning_label: Label = Label.new()
+	burning_label.text = "burning"
+	state_indicator.add_child(burning_label)
+	state_indicator.set_position(Vector2(position.x-100, position.y-100))
+	
+	return self
+
+func _on_hit_box_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	if body is TileMapLayer:
+		var cell_coords = body.get_coords_for_body_rid(body_rid)
+		var environment = proc_gen_world_2.environment
+		var tile = environment.get_cell_tile_data(cell_coords)
+		
+		for logic_tile: LogicTile in proc_gen_world_2.logic_tiles:
+			if logic_tile.cell_position == cell_coords:
+				logic_tile.data["is_burning"] = true
+		

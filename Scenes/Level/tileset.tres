@@ -1747,15 +1747,19 @@ texture = ExtResource("1_4o18t")
 12:2/size_in_atlas = Vector2i(3, 4)
 12:2/0 = 0
 12:2/0/texture_origin = Vector2i(0, 28)
+12:2/0/physics_layer_1/polygon_0/points = PackedVector2Array(-20, -51, 18.7383, -51.6188, 8, 8, -8, 8)
 15:2/size_in_atlas = Vector2i(3, 4)
 15:2/0 = 0
 15:2/0/texture_origin = Vector2i(10, 28)
+15:2/0/physics_layer_1/polygon_0/points = PackedVector2Array(-20, -51, 18.7383, -51.6188, 8, 8, -8, 8)
 15:6/size_in_atlas = Vector2i(3, 4)
 15:6/0 = 0
 15:6/0/texture_origin = Vector2i(0, 26)
 
 [resource]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
+physics_layer_1/collision_layer = 8
+physics_layer_1/collision_mask = 8
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "sand"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
@@ -1771,4 +1775,6 @@ terrain_set_3/terrain_0/color = Color(0.501961, 0.345098, 0.454902, 1)
 terrain_set_4/mode = 0
 terrain_set_4/terrain_0/name = "dirt_on_grass"
 terrain_set_4/terrain_0/color = Color(0.501961, 0.109804, 0.25098, 1)
+custom_data_layer_0/name = "is_burning"
+custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_8ow0x")

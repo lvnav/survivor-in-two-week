@@ -1,4 +1,4 @@
-extends Node2D
+class_name ProcGenWorld extends Node2D
 
 @export var noise_height_text: NoiseTexture2D
 @export var noise_tree_text: NoiseTexture2D
@@ -8,6 +8,9 @@ extends Node2D
 @onready var ground_2: TileMapLayer = $Ground2
 @onready var cliff: TileMapLayer = $Cliff
 @onready var environment: TileMapLayer = $Environment
+@onready var player: Player = $Player
+@onready var level: Level = $".."
+
 
 var noise: Noise
 var tree_noise: Noise
@@ -43,17 +46,37 @@ func _ready() -> void:
 	noise = noise_height_text.noise
 	tree_noise = noise_tree_text.noise
 	generate_world()
-	
+
+var logic_tiles : Array = []
 func generate_world() -> void:
 	for x: int in range(-width/2.0, width/2.0):
 		for y:int in range(-height/2.0, height/2.0):
 			var noise_val: float = noise.get_noise_2d(x,y)
 			var tree_noise_val: float = tree_noise.get_noise_2d(x,y)
-			
 			if noise_val >= -0.2:
 				if noise_val > 0 and noise_val < .17 and tree_noise_val > .85:
-						var random_palm_tree_type: Vector2i = palm_tree_atlas.pick_random()
-						environment.set_cell(Vector2i(x,y), source_id, random_palm_tree_type)
+					var random_palm_tree_type: Vector2i = palm_tree_atlas.pick_random()
+					
+					var position = Vector2i(x,y)
+					environment.set_cell(position, source_id, random_palm_tree_type)
+					var tiledata = environment.get_cell_tile_data(position)
+					var label = ReactiveLabel.new()
+					
+					var logic_tile = LogicTile.new()
+					
+					logic_tile.tiledata = tiledata
+					logic_tile.data["is_burning"] = label.text
+					logic_tile.cell_position = position
+					label.logic_tile = logic_tile
+					
+					label.text = str(tiledata.get_custom_data("is_burning"))
+					label.position = environment.map_to_local(position)
+					label.show()
+					level.call_deferred("add_child", label)
+					logic_tile.nodes["label"] = label
+					
+					logic_tiles.append(logic_tile)
+						
 				if noise_val > .2:
 					grass_tiles.append(Vector2i(x,y))
 					if noise_val > .25:

@@ -46,6 +46,7 @@ height = 160.0
 z_index = 1
 y_sort_enabled = true
 scale = Vector2(0.2, 0.2)
+collision_layer = 11
 script = ExtResource("1_cslsb")
 bolt = ExtResource("2_1cu1m")
 
@@ -80,13 +81,18 @@ zoom = Vector2(0.5, 0.5)
 
 [node name="CharacterBodyCollisionShape" type="CollisionShape2D" parent="."]
 y_sort_enabled = true
-scale = Vector2(1, 1)
 shape = SubResource("CircleShape2D_382uy")
 
 [node name="HitBox" type="Area2D" parent="."]
+collision_layer = 11
+collision_mask = 15
 
 [node name="HitBoxCollisionShape" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CapsuleShape2D_mlcig")
+
+[node name="StateIndicator" type="HBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
 
 [connection signal="attack_speed_modifier_has_changed" from="." to="AttackTimer" method="_on_player_attack_speed_modifier_has_changed"]
 [connection signal="input_event" from="." to="." method="_on_input_event"]
@@ -94,3 +100,6 @@ shape = SubResource("CapsuleShape2D_mlcig")
 [connection signal="timeout" from="DodgeTimer" to="." method="_on_dodge_timer_timeout"]
 [connection signal="timeout" from="ReleaseDodgeTimer" to="." method="_on_release_dodge_timer_timeout"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_shape_entered" from="HitBox" to="." method="_on_hit_box_body_shape_entered"]
+[connection signal="input_event" from="HitBox" to="." method="_on_hit_box_input_event"]

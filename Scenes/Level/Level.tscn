@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsbrbouhigy8o"]
+[gd_scene load_steps=4 format=3 uid="uid://bsbrbouhigy8o"]
 
 [ext_resource type="Script" path="res://Scenes/Level/level.gd" id="1_ieq04"]
 [ext_resource type="PackedScene" uid="uid://shmhpdkecxih" path="res://Scenes/Mob/Mob.tscn" id="2_w1lrs"]
 [ext_resource type="Script" path="res://Scenes/Level/up_handler.gd" id="3_pod3h"]
-[ext_resource type="PackedScene" uid="uid://dvn26i4m8i8i7" path="res://proc_gen_world.tscn" id="6_jj40f"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ieq04")
@@ -29,8 +28,5 @@ position = Vector2(-472, 267)
 
 [node name="UpHandler" type="Node" parent="."]
 script = ExtResource("3_pod3h")
-
-[node name="ProcGenWorld" parent="." instance=ExtResource("6_jj40f")]
-visible = false
 
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timeout"]
