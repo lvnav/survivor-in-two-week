@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://dvn26i4m8i8i7"]
+
+[ext_resource type="Script" path="res://Scenes/Level/proc_gen_world.gd" id="1_uucdy"]
+[ext_resource type="TileSet" uid="uid://bixen2pbc7wlb" path="res://Scenes/Level/tileset.tres" id="2_34xxr"]
+
+[sub_resource type="Gradient" id="Gradient_167cy"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.409639, 0.60241, 0.815261)
+colors = PackedColorArray(0, 0, 0.815686, 1, 0.712696, 0.662335, 0.202224, 1, 0.205406, 0.600976, 0.278122, 1, 0.491008, 0.2747, 0.0904412, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hk1h8"]
+seed = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7t0ol"]
+color_ramp = SubResource("Gradient_167cy")
+noise = SubResource("FastNoiseLite_hk1h8")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wg0lw"]
+frequency = 0.35
+fractal_octaves = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r1o3j"]
+noise = SubResource("FastNoiseLite_wg0lw")
+
+[node name="ProcGenWorld" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_uucdy")
+noise_height_text = SubResource("NoiseTexture2D_7t0ol")
+noise_tree_text = SubResource("NoiseTexture2D_r1o3j")
+
+[node name="Water" type="TileMapLayer" parent="."]
+z_index = -1
+y_sort_enabled = true
+tile_set = ExtResource("2_34xxr")
+
+[node name="Ground1" type="TileMapLayer" parent="."]
+z_index = -1
+y_sort_enabled = true
+tile_set = ExtResource("2_34xxr")
+
+[node name="Ground2" type="TileMapLayer" parent="."]
+z_index = -1
+y_sort_enabled = true
+tile_set = ExtResource("2_34xxr")
+
+[node name="Cliff" type="TileMapLayer" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("2_34xxr")
+
+[node name="Environment" type="TileMapLayer" parent="."]
+z_index = 2
+y_sort_enabled = true
+tile_set = ExtResource("2_34xxr")

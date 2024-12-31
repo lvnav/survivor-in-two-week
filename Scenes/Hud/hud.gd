@@ -1,6 +1,7 @@
 class_name Hud extends Control
 
-@onready var player: Player = $"../Player"
+@onready var player: Player = $"../ProcGenWorld2/Player"
+
 @onready var remaining_life: Label = $LifeIndicator/RemainingLife
 @onready var total_life: Label = $LifeIndicator/TotalLife
 @onready var score_indicator: Label = $ScoreIndicator

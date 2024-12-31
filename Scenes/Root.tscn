@@ -1,27 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://byysobtogm3ah"]
+[gd_scene load_steps=9 format=3 uid="uid://byysobtogm3ah"]
 
 [ext_resource type="Script" path="res://Scenes/root.gd" id="2_emk15"]
 [ext_resource type="PackedScene" uid="uid://crguvm4m6ew6y" path="res://Scenes/StartMenu/start_menu.tscn" id="3_wkcoi"]
 [ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://Scenes/Level/Level.tscn" id="4_6n0bp"]
+[ext_resource type="PackedScene" uid="uid://dvn26i4m8i8i7" path="res://proc_gen_world.tscn" id="6_ge0mj"]
 [ext_resource type="PackedScene" uid="uid://clpovqi64r52s" path="res://Scenes/Player/player.tscn" id="6_rbrhd"]
 [ext_resource type="PackedScene" uid="uid://bjrx1run31mnd" path="res://Scenes/Hud/Hud.tscn" id="7_e6ye5"]
 [ext_resource type="PackedScene" uid="uid://b04o5h6jfwr0" path="res://Scenes/GameOverMenu/GameOverMenu.tscn" id="8_gsu11"]
 [ext_resource type="AudioStream" uid="uid://dxotkfefgrtii" path="res://Audios/Temple of Pixels-1.mp3" id="9_sgsjc"]
 
-[node name="Root" type="Sprite2D"]
-position = Vector2(960, 540)
+[node name="Root" type="Node"]
 script = ExtResource("2_emk15")
-
-[node name="StartMenu" parent="." instance=ExtResource("3_wkcoi")]
-offset_left = -960.0
-offset_top = -548.5
-offset_right = -960.0
-offset_bottom = -548.5
 
 [node name="Level" parent="." instance=ExtResource("4_6n0bp")]
 position = Vector2(-13, 0)
-
-[node name="Player" parent="Level" instance=ExtResource("6_rbrhd")]
 
 [node name="HUD" parent="Level" instance=ExtResource("7_e6ye5")]
 offset_left = -139.0
@@ -29,7 +21,18 @@ offset_top = 320.0
 offset_right = -139.0
 offset_bottom = 320.0
 
+[node name="ProcGenWorld2" parent="Level" instance=ExtResource("6_ge0mj")]
+visibility_layer = 2
+
+[node name="Player" parent="Level/ProcGenWorld2" instance=ExtResource("6_rbrhd")]
+
 [node name="GameOverMenu" parent="." instance=ExtResource("8_gsu11")]
+
+[node name="StartMenu" parent="." instance=ExtResource("3_wkcoi")]
+offset_left = -728.0
+offset_top = -414.0
+offset_right = -728.0
+offset_bottom = -414.0
 
 [node name="MainAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 4
@@ -37,14 +40,15 @@ stream = ExtResource("9_sgsjc")
 autoplay = true
 parameters/looping = true
 
-[connection signal="game_state_change" from="." to="StartMenu" method="_on_game_state_change"]
 [connection signal="game_state_change" from="." to="Level" method="_on_game_state_change"]
-[connection signal="game_state_change" from="." to="Level/Player" method="_on_game_state_change"]
+[connection signal="game_state_change" from="." to="Level/ProcGenWorld2/Player" method="_on_game_state_change"]
 [connection signal="game_state_change" from="." to="GameOverMenu" method="_on_game_state_change"]
-[connection signal="start_game" from="StartMenu" to="." method="_on_start_game"]
+[connection signal="game_state_change" from="." to="StartMenu" method="_on_game_state_change"]
 [connection signal="level_up" from="Level" to="Level/HUD" method="_on_level_up"]
-[connection signal="has_no_hp" from="Level/Player" to="." method="_on_player_has_no_hp"]
-[connection signal="remaining_life_change" from="Level/Player" to="Level/HUD" method="_on_player_remaining_life_change"]
-[connection signal="total_life_change" from="Level/Player" to="Level/HUD" method="_on_player_total_life_change"]
 [connection signal="gui_input" from="Level/HUD" to="Level/HUD" method="_on_gui_input"]
+[connection signal="has_no_hp" from="Level/ProcGenWorld2/Player" to="." method="_on_player_has_no_hp"]
+[connection signal="remaining_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_remaining_life_change"]
+[connection signal="shoot" from="Level/ProcGenWorld2/Player" to="Level" method="_on_player_shoot"]
+[connection signal="total_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_total_life_change"]
 [connection signal="restart_game_pressed" from="GameOverMenu" to="." method="_on_restart_game_pressed"]
+[connection signal="start_game" from="StartMenu" to="." method="_on_start_game"]

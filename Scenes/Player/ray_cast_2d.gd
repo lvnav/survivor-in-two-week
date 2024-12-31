@@ -5,6 +5,6 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	
-	target_position = to_local(get_viewport().get_mouse_position())
-	
+	target_position = get_local_mouse_position()
+
 	pass

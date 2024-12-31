@@ -1,21 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://shmhpdkecxih"]
+[gd_scene load_steps=9 format=3 uid="uid://shmhpdkecxih"]
 
 [ext_resource type="Script" path="res://Scenes/Mob/mob.gd" id="1_batpi"]
-[ext_resource type="Texture2D" uid="uid://4qyfw8g3psch" path="res://Assets/enemy.png" id="2_wrcqb"]
+[ext_resource type="Texture2D" uid="uid://dn4m28xhd7ihn" path="res://Assets/mob_frames/row-2-column-4.png" id="3_m51p1"]
+[ext_resource type="Texture2D" uid="uid://bw1s7nyobvc7c" path="res://Assets/mob_frames/row-1-column-1.png" id="4_y2qdk"]
+[ext_resource type="Texture2D" uid="uid://cfi1vchs1qs47" path="res://Assets/mob_frames/row-2-column-1.png" id="5_hwgpv"]
+[ext_resource type="Texture2D" uid="uid://di12upxbaumjq" path="res://Assets/mob_frames/row-3-column-3.png" id="6_cp6or"]
+[ext_resource type="Texture2D" uid="uid://dcxp1p7imrj4o" path="res://Assets/mob_frames/row-5-column-6.png" id="7_r8qdo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mw3tk"]
 radius = 45.0
 
-[node name="Mob" type="Area2D" groups=["enemy"]]
+[sub_resource type="SpriteFrames" id="SpriteFrames_eqfff"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_m51p1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_y2qdk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_hwgpv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_cp6or")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_r8qdo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Mob" type="RigidBody2D" groups=["enemy"]]
 visibility_layer = 2
 script = ExtResource("1_batpi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mw3tk")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.195313, 0.1875)
-texture = ExtResource("2_wrcqb")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(7, 19)
+scale = Vector2(0.402344, 0.308594)
+sprite_frames = SubResource("SpriteFrames_eqfff")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="die" from="." to="." method="_on_die"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="input_event" from="." to="." method="_on_input_event"]

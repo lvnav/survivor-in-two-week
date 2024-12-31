@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody2D
 
+var Bolta = preload("res://Scenes/Bolt/Bolt.tscn")
 const DEFAULT_TOTAL_LIFE: int = 100
 const BASE_SPEED: float = 100.0
 
@@ -10,10 +11,11 @@ const BASE_SPEED: float = 100.0
 
 @onready var attack_timer: Timer = $AttackTimer
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
-@onready var sprite_2d: Sprite2D = $Sprite2D
-@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var dodge_timer: Timer = $DodgeTimer
 @onready var release_dodge_timer: Timer = $ReleaseDodgeTimer
+@onready var camera_2d: Camera2D = $Camera2D
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 var local_game_state: String
 var player_state: String
@@ -32,18 +34,20 @@ signal total_life_change
 signal remaining_life_change
 signal has_no_hp
 signal attack_speed_modifier_has_changed
+signal shoot
 
 func _ready() -> void:
 	hide()
+	camera_2d.make_current()
+	
 	set_total_life(DEFAULT_TOTAL_LIFE)
 	set_remaining_life(DEFAULT_TOTAL_LIFE)
-
-func _process(_delta: float) -> void:
-	pass
 
 func _physics_process(_delta: float) -> void:
 	if local_game_state != "play":
 		return
+	
+	_zoom()
 	_move()
 	_aim()
 	
@@ -51,16 +55,17 @@ func _move() -> void:
 	var direction: Vector2 = Input.get_vector("user_move_left", "user_move_right", "user_move_up", "user_move_down")
 	if (direction.x == 0 and direction.y == 0):
 		player_state = "idle"
+		animated_sprite_2d.pause()
 	else:
 		player_state = "move"
+		animated_sprite_2d.play()
 	
-	if direction.x < 0:
-		sprite_2d.flip_h = true
+	if ray_cast_2d.target_position.x > 0:
+		animated_sprite_2d.flip_h = true
 	else:
-		sprite_2d.flip_h = false
+		animated_sprite_2d.flip_h = false
 	
 	if (direction.x != 0 or direction.y != 0) and Input.is_action_just_pressed("dodge") and release_dodge_timer.is_stopped():
-		print('cc')
 		dodge_timer.start()
 		dodge_move_speed_boost = BASE_SPEED
 		
@@ -68,21 +73,22 @@ func _move() -> void:
 	move_and_slide()
 	
 func _aim() -> void:
-	ray_cast_2d.target_position = to_global(get_viewport().get_mouse_position())
+	ray_cast_2d.target_position = get_local_mouse_position().normalized()
 	
-func _shoot() -> void:
-	var fired_bolt: Bolt = bolt.instantiate()
-	fired_bolt.position = position
-	fired_bolt.damage = fired_bolt.damage + int((fired_bolt.DEFAULT_DAMAGE * attack_damage_modifier / 100))
-	fired_bolt.direction = (ray_cast_2d.target_position).normalized()
-	fired_bolt.shoot_origin = self
-	bolts.append(fired_bolt)
-	get_tree().current_scene.add_child(fired_bolt)
-
 func _on_attack_timer_timeout() -> void:
 	if local_game_state != "play":
 		return
-	_shoot()
+	shoot.emit(Bolta, get_angle_to(ray_cast_2d.target_position), position)
+
+func _zoom() -> void:
+	if (Input.is_action_just_pressed("zoom_in")):
+		var zoom_val = camera_2d.zoom.x + .1
+		camera_2d.zoom = Vector2(zoom_val, zoom_val)
+		pass
+	if (Input.is_action_just_pressed("zoom_out")):
+		var zoom_val = camera_2d.zoom.x - .1
+		camera_2d.zoom = Vector2(zoom_val, zoom_val)
+		pass
 
 func set_total_life(new_total_life: int) -> void:
 	total_life = new_total_life
@@ -98,9 +104,9 @@ func set_attack_speed_modifier(new_attack_speed_modifier: float) -> void:
 	attack_speed_modifier = new_attack_speed_modifier
 	attack_speed_modifier_has_changed.emit(attack_speed_modifier)
 
-func _on_hit_area_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy") and area is Mob:
-		var mob: Mob = area
+func _on_hit_area_entered(area: Area2D) -> void:
+	if area.is_in_group("enemy"):
+		var mob = area
 		set_remaining_life(remaining_life - mob.damage)
 
 func start(pos: Vector2) -> void:

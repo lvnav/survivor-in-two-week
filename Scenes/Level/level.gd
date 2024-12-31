@@ -1,10 +1,11 @@
 class_name Level extends Node2D
 
-@onready var player: Player = $Player
+#@onready var player: Player = $Player
 @onready var spawns: Node2D = $Spawns
 @onready var hud: Hud = $HUD
 @onready var root: Root = $".."
 @onready var up_handler: UpHandler = $UpHandler
+@onready var player: Player = $ProcGenWorld2/Player
 
 @export var mob : PackedScene
 @export var mobs : Array[Mob]
@@ -13,9 +14,6 @@ var score_value: int = 0
 var need_up: bool
 
 signal level_up
-
-func _ready() -> void:
-	pass
 
 func _process(_delta: float) -> void:
 	if need_up:
@@ -66,3 +64,19 @@ func new_game() -> void:
 func end_game() -> void:
 	player.die()
 	get_tree().paused = true
+
+
+func _on_player_shoot(BoltIn, direction, location) -> void:
+	var spawned_bullet = BoltIn.instantiate()
+	add_child(spawned_bullet)
+	spawned_bullet.rotation = direction
+	spawned_bullet.position = location
+	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)
+	
+	#var fired_bolt: Bolt = bolt.instantiate()
+	#fired_bolt.position = position
+	#fired_bolt.damage = fired_bolt.damage + int((fired_bolt.DEFAULT_DAMAGE * attack_damage_modifier / 100))
+	#fired_bolt.direction = (ray_cast_2d.target_position).normalized()
+	#fired_bolt.shoot_origin = self
+	#bolts.append(fired_bolt)
+	#get_tree().current_scene.add_child(fired_bolt)

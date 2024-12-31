@@ -1,4 +1,4 @@
-class_name Root extends Sprite2D
+class_name Root extends Node
 
 const GAME_STATE_START: StringName = "start"
 const GAME_STATE_PLAY: StringName = "play"
