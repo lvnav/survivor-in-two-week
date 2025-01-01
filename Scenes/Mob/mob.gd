@@ -4,6 +4,7 @@ class_name Mob extends Area2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var label: Label = $Label
 @onready var environmental_state: EnvironmentalState = $EnvironmentalState
+@onready var environmental_state_sprite: EnvironmentalStateSprite = $EnvironmentalStateSprite
 
 static var player_position: Vector2i
 
@@ -13,6 +14,9 @@ var life: int = 400
 var is_burning: bool = false
 
 signal die
+
+func _ready() -> void:
+	environmental_state_sprite.environmental_state = environmental_state
 
 func _physics_process(delta: float) -> void:
 	if direction.x < position.x:
@@ -30,13 +34,13 @@ func _on_screen_exited() -> void:
 	queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("player_dmg_projectile"):
-		var bolt: Bolt = area
-		life -= bolt.damage
-		
-		if life <= 0:
-			die.emit()
-			queue_free()
+	if area is Bolt:
+		life -= area.damage
+		#EnvironmentalStateResolver.
+	
+	if life <= 0:
+		die.emit()
+		queue_free()
 
 func _on_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
 		EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)

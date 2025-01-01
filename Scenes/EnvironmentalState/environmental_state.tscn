@@ -7,7 +7,12 @@ script = ExtResource("1_kljnh")
 
 [node name="Container" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 offset_right = 108.0
 offset_bottom = 40.0
 
+[node name="ActualStateTimer" type="Timer" parent="."]
+wait_time = 3.0
+
 [connection signal="elemental_states_change" from="." to="." method="_on_elemental_states_change"]
+[connection signal="timeout" from="ActualStateTimer" to="." method="_on_actual_state_timer_timeout"]

@@ -1,9 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://i0eluahn8bp0"]
+[gd_scene load_steps=4 format=3 uid="uid://i0eluahn8bp0"]
 
 [ext_resource type="Script" path="res://Scenes/LogicTile/logic_tile.gd" id="1_jpjpd"]
 [ext_resource type="PackedScene" uid="uid://2vrljdef6ct2" path="res://Scenes/EnvironmentalState/environmental_state.tscn" id="2_wb7v8"]
+[ext_resource type="Script" path="res://Scenes/EnvironmentalStateSprite/environmental_state_sprite.gd" id="3_ts62p"]
 
 [node name="LogicTile" type="Node2D"]
 script = ExtResource("1_jpjpd")
 
 [node name="EnvironmentalState" parent="." instance=ExtResource("2_wb7v8")]
+priority = 1
+
+[node name="EnvironmentalStateSprite" type="Sprite2D" parent="."]
+script = ExtResource("3_ts62p")
+custom_scale = Vector2(0.2, 0.2)
+
+[connection signal="elemental_state_consumed" from="EnvironmentalState" to="." method="_on_environmental_state_elemental_state_consumed"]

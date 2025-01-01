@@ -62,19 +62,11 @@ func generate_world() -> void:
 					environment.set_cell(position, source_id, random_palm_tree_type)
 					var tiledata = environment.get_cell_tile_data(position)
 					
-					#var label = ReactiveLabel.new()
-					var logic_tile: LogicTile = logic_tile.instantiate().with_data(tiledata, position)
+					var logic_tile: LogicTile = logic_tile.instantiate().with_data(
+						tiledata,
+						position
+					)
 					add_child(logic_tile)
-					#print(logic_tile.environmental_state)
-					#logic_tile.environmental_state = EnvironmentalState.new()
-					#logic_tile.environmental_state.set_elemental_state("is_burning"] = label.text
-					#label.logic_tile = logic_tile
-					
-					#label.text = str(tiledata.get_custom_data("is_burning"))
-					#label.position = environment.map_to_local(position)
-					#label.show()
-					#level.call_deferred("add_child", label)
-					#logic_tile.nodes["label"] = label
 					
 					logic_tiles[position] = logic_tile
 						

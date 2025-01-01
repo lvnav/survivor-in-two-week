@@ -22,6 +22,7 @@ const BASE_SPEED: float = 100.0
 @onready var proc_gen_world_2: ProcGenWorld = $".."
 @onready var label: Label = $Label
 @onready var environmental_state: EnvironmentalState = $EnvironmentalState
+@onready var environmental_state_sprite: EnvironmentalStateSprite = $EnvironmentalStateSprite
 
 var local_game_state: String
 var player_state: String
@@ -51,10 +52,7 @@ func _ready() -> void:
 	
 	set_total_life(DEFAULT_TOTAL_LIFE)
 	set_remaining_life(DEFAULT_TOTAL_LIFE)
-	#set_is_burning(true)
-
-#func _process(delta: float) -> void:
-	#environmental_state.container.position = position
+	environmental_state_sprite.environmental_state = environmental_state
 
 func _physics_process(_delta: float) -> void:
 	if local_game_state != "play":
@@ -156,16 +154,6 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
 		var mob: Mob = area
 		set_remaining_life(remaining_life - mob.damage)
-
-#func set_is_burning(new_is_burning: bool) -> Player:
-	#is_burning = new_is_burning
-	#
-	#var burning_label: Label = Label.new()
-	#burning_label.text = "burning"
-	#state_indicator.add_child(burning_label)
-	#state_indicator.set_position(Vector2(position.x-100, position.y-100))
-	#
-	#return self
 
 func _on_hit_box_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
 	EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)

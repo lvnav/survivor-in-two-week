@@ -9,22 +9,22 @@ static func resolve(body: Node2D, body_rid: RID, environmentalState: Environment
 			return
 			
 		var logic_tile: LogicTile = proc_world.logic_tiles[cell_coords]
-		
-		if environmentalState.elemental_states["burning"]:
-			print("ici")
-			logic_tile.environmental_state.set_elemental_state("burning", true)
-			logic_tile.environmental_state.set_elemental_state("wet", false)
-		
-		if environmentalState.elemental_states["wet"]:
-			print("la-bas")
-			logic_tile.environmental_state.set_elemental_state("burning", false)
-			logic_tile.environmental_state.set_elemental_state("wet", true)
-		
-		if logic_tile.environmental_state.elemental_states["burning"]:
-			environmentalState.set_elemental_state("burning", true)
-			environmentalState.set_elemental_state("wet", false)
-		
-		if logic_tile.environmental_state.elemental_states["wet"]:
-			environmentalState.set_elemental_state("burning", false)
-			environmentalState.set_elemental_state("wet", true)
-		
+		priorizedPropagation(environmentalState, logic_tile.environmental_state)
+	
+static func propagate(from: EnvironmentalState, to: EnvironmentalState) -> void:
+	for key in from.elemental_states:
+		to.set_elemental_state(key, from.elemental_states[key])
+
+static func priorizedPropagation(source_a: EnvironmentalState, source_b: EnvironmentalState) -> void:
+	if (source_a.priority == null or source_b.priority == null):
+		assert(false, "Every EnvironmentalState must have a priority set")
+
+	if source_a.is_altered() and !source_b.is_altered():
+		propagate(source_a, source_b)
+	elif !source_a.is_altered() and source_b.is_altered():
+		propagate(source_b, source_a)
+	elif (source_a.priority <= source_b.priority):
+		propagate(source_a, source_b)
+	else:
+		propagate(source_b, source_a)
+	

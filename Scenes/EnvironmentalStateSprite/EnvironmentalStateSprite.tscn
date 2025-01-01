@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf2c8yhf8ccec"]
+
+[ext_resource type="Script" path="res://Scenes/EnvironmentalStateSprite/environmental_state_sprite.gd" id="2_85mne"]
+
+[node name="EnvironmentalStateSprite" type="Node2D"]
+script = ExtResource("2_85mne")
