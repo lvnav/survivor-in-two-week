@@ -9,7 +9,6 @@ class_name Level extends Node2D
 
 
 @export var mob : PackedScene
-@export var mobs : Array[Mob]
 
 var score_value: int = 0
 var need_up: bool
@@ -35,17 +34,10 @@ func _init_mob() -> void:
 	new_mob.die.connect(self._on_mob_die)
 	new_mob.visible = true
 	var spawner_position: Node2D = spawns.get_child(1)
-	new_mob.set_collision_layer_value(2, true)
-	new_mob.set_collision_layer_value(4, true)
-	new_mob.collision_layer
-	print('a')
-	print(new_mob.get_collision_layer_value(2))
-	print('a')
-	
+
 	#var spawner_position: Node2D = spawns.get_child(randi_range(0, spawns.get_child_count()-1))
 	new_mob.position = spawner_position.position
 	new_mob.process_mode = Node.PROCESS_MODE_INHERIT
-	new_mob.proc_gen_world_2 = self.proc_gen_world_2
 	add_child(new_mob)
 
 func _on_mob_die() -> void:
@@ -81,9 +73,18 @@ func end_game() -> void:
 
 func _on_player_shoot(BoltPacked: PackedScene, direction: float, location: Vector2, shooter: Player) -> void:
 	var spawned_bullet: Bolt = BoltPacked.instantiate()
-	add_child(spawned_bullet)
 	spawned_bullet.rotation = direction
 	spawned_bullet.position = location
 	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)
 	spawned_bullet.shoot_origin = shooter
+	
+	add_child(spawned_bullet)
+
+	if shooter.bullet_mode == "wet":
+		spawned_bullet.environmental_state.set_elemental_state("burning", false)
+		spawned_bullet.environmental_state.set_elemental_state("wet", true)
+	if shooter.bullet_mode == "burning":
+		spawned_bullet.environmental_state.set_elemental_state("burning", true)
+		spawned_bullet.environmental_state.set_elemental_state("wet", false)
+	
 	

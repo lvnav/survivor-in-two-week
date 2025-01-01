@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://byysobtogm3ah"]
+[gd_scene load_steps=9 format=3 uid="uid://byysobtogm3ah"]
 
 [ext_resource type="Script" path="res://Scenes/root.gd" id="2_emk15"]
 [ext_resource type="PackedScene" uid="uid://crguvm4m6ew6y" path="res://Scenes/StartMenu/start_menu.tscn" id="3_wkcoi"]
 [ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://Scenes/Level/Level.tscn" id="4_6n0bp"]
-[ext_resource type="PackedScene" uid="uid://shmhpdkecxih" path="res://Scenes/Mob/Mob.tscn" id="6_fgfgp"]
-[ext_resource type="PackedScene" uid="uid://dvn26i4m8i8i7" path="res://proc_gen_world.tscn" id="6_ge0mj"]
+[ext_resource type="PackedScene" uid="uid://dvn26i4m8i8i7" path="res://Scenes/ProcGenWorld/proc_gen_world.tscn" id="6_ge0mj"]
 [ext_resource type="PackedScene" uid="uid://clpovqi64r52s" path="res://Scenes/Player/player.tscn" id="6_rbrhd"]
 [ext_resource type="PackedScene" uid="uid://bjrx1run31mnd" path="res://Scenes/Hud/Hud.tscn" id="7_e6ye5"]
 [ext_resource type="PackedScene" uid="uid://b04o5h6jfwr0" path="res://Scenes/GameOverMenu/GameOverMenu.tscn" id="8_gsu11"]
@@ -27,10 +26,6 @@ visibility_layer = 2
 
 [node name="Player" parent="Level/ProcGenWorld2" instance=ExtResource("6_rbrhd")]
 
-[node name="Mob" parent="Level/ProcGenWorld2" instance=ExtResource("6_fgfgp")]
-process_mode = 4
-position = Vector2(13, 0)
-
 [node name="GameOverMenu" parent="." instance=ExtResource("8_gsu11")]
 
 [node name="StartMenu" parent="." instance=ExtResource("3_wkcoi")]
@@ -52,10 +47,8 @@ parameters/looping = true
 [connection signal="level_up" from="Level" to="Level/HUD" method="_on_level_up"]
 [connection signal="gui_input" from="Level/HUD" to="Level/HUD" method="_on_gui_input"]
 [connection signal="has_no_hp" from="Level/ProcGenWorld2/Player" to="." method="_on_player_has_no_hp"]
-[connection signal="position_change" from="Level/ProcGenWorld2/Player" to="Level/ProcGenWorld2/Mob" method="_on_player_position_change"]
 [connection signal="remaining_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_remaining_life_change"]
 [connection signal="shoot" from="Level/ProcGenWorld2/Player" to="Level" method="_on_player_shoot"]
 [connection signal="total_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_total_life_change"]
-[connection signal="area_shape_entered" from="Level/ProcGenWorld2/Mob" to="Level/ProcGenWorld2/Mob" method="_on_area_shape_entered"]
 [connection signal="restart_game_pressed" from="GameOverMenu" to="." method="_on_restart_game_pressed"]
 [connection signal="start_game" from="StartMenu" to="." method="_on_start_game"]

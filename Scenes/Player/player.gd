@@ -21,6 +21,7 @@ const BASE_SPEED: float = 100.0
 @onready var character_body_collision_shape: CollisionShape2D = $CharacterBodyCollisionShape
 @onready var proc_gen_world_2: ProcGenWorld = $".."
 @onready var label: Label = $Label
+@onready var environmental_state: EnvironmentalState = $EnvironmentalState
 
 var local_game_state: String
 var player_state: String
@@ -35,6 +36,7 @@ var dodge_move_speed_boost: float = 0.
 
 var has_piercing_projectile: bool = false
 var is_burning: bool = true
+var bullet_mode: String = "burning"
 
 signal total_life_change
 signal remaining_life_change
@@ -49,7 +51,10 @@ func _ready() -> void:
 	
 	set_total_life(DEFAULT_TOTAL_LIFE)
 	set_remaining_life(DEFAULT_TOTAL_LIFE)
-	set_is_burning(true)
+	#set_is_burning(true)
+
+#func _process(delta: float) -> void:
+	#environmental_state.container.position = position
 
 func _physics_process(_delta: float) -> void:
 	if local_game_state != "play":
@@ -57,6 +62,12 @@ func _physics_process(_delta: float) -> void:
 	
 	label.text = str(position)
 	position_change.emit(position)
+	if (Input.is_action_just_pressed("burning_projectile")):
+		bullet_mode = "burning"
+	elif (Input.is_action_just_pressed("wet_projectile")):
+		bullet_mode = "wet"
+		pass
+		
 	_zoom()
 	_move()
 	_aim()
@@ -146,24 +157,16 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 		var mob: Mob = area
 		set_remaining_life(remaining_life - mob.damage)
 
-func set_is_burning(new_is_burning: bool) -> Player:
-	is_burning = new_is_burning
-	
-	var burning_label: Label = Label.new()
-	burning_label.text = "burning"
-	state_indicator.add_child(burning_label)
-	state_indicator.set_position(Vector2(position.x-100, position.y-100))
-	
-	return self
+#func set_is_burning(new_is_burning: bool) -> Player:
+	#is_burning = new_is_burning
+	#
+	#var burning_label: Label = Label.new()
+	#burning_label.text = "burning"
+	#state_indicator.add_child(burning_label)
+	#state_indicator.set_position(Vector2(position.x-100, position.y-100))
+	#
+	#return self
 
 func _on_hit_box_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
-	if body is TileMapLayer:
-		var cell_coords = body.get_coords_for_body_rid(body_rid)
-		var environment = proc_gen_world_2.environment
-		var tile = environment.get_cell_tile_data(cell_coords)
-		
-		print("player",cell_coords)
-		if proc_gen_world_2.logic_tiles.has(cell_coords):
-			var logic_tile: LogicTile = proc_gen_world_2.logic_tiles[cell_coords]
-			logic_tile.data["is_burning"] = true
+	EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)
 		

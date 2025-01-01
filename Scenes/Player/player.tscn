@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://clpovqi64r52s"]
+[gd_scene load_steps=15 format=3 uid="uid://clpovqi64r52s"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_cslsb"]
 [ext_resource type="PackedScene" uid="uid://d0lgfe3nmh2ok" path="res://Scenes/Bolt/Bolt.tscn" id="2_1cu1m"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c0mxx5mbw6ovr" path="res://Assets/player_frames/row-2-column-1.png" id="8_kk73p"]
 [ext_resource type="Texture2D" uid="uid://d4npu82tujp0c" path="res://Assets/player_frames/row-2-column-4.png" id="9_5fvng"]
 [ext_resource type="Texture2D" uid="uid://cggjtub0ct6q8" path="res://Assets/player_frames/row-3-column-3.png" id="10_f0stl"]
+[ext_resource type="PackedScene" uid="uid://2vrljdef6ct2" path="res://Scenes/EnvironmentalState/environmental_state.tscn" id="11_1ekkp"]
 [ext_resource type="Texture2D" uid="uid://drbshhxlgentp" path="res://Assets/player_frames/row-4-column-6.png" id="11_eg204"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_f0ech"]
@@ -99,6 +100,8 @@ offset_left = 35.0
 offset_top = -90.0
 offset_right = 75.0
 offset_bottom = -67.0
+
+[node name="EnvironmentalState" parent="." instance=ExtResource("11_1ekkp")]
 
 [connection signal="attack_speed_modifier_has_changed" from="." to="AttackTimer" method="_on_player_attack_speed_modifier_has_changed"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

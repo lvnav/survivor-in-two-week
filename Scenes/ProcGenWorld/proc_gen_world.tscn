@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dvn26i4m8i8i7"]
+[gd_scene load_steps=9 format=3 uid="uid://dvn26i4m8i8i7"]
 
 [ext_resource type="Script" path="res://Scenes/Level/proc_gen_world.gd" id="1_uucdy"]
 [ext_resource type="TileSet" uid="uid://bixen2pbc7wlb" path="res://Scenes/Level/tileset.tres" id="2_34xxr"]
-[ext_resource type="Script" path="res://reactive_label.gd" id="3_nuqob"]
-[ext_resource type="Script" path="res://logic_tile.gd" id="4_7gx38"]
+[ext_resource type="PackedScene" uid="uid://i0eluahn8bp0" path="res://Scenes/LogicTile/logic_tile.tscn" id="4_lyk88"]
 
 [sub_resource type="Gradient" id="Gradient_167cy"]
 interpolation_mode = 1
@@ -29,23 +28,28 @@ y_sort_enabled = true
 script = ExtResource("1_uucdy")
 noise_height_text = SubResource("NoiseTexture2D_7t0ol")
 noise_tree_text = SubResource("NoiseTexture2D_r1o3j")
+logic_tile = ExtResource("4_lyk88")
 
 [node name="Water" type="TileMapLayer" parent="."]
+visible = false
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
 [node name="Ground1" type="TileMapLayer" parent="."]
+visible = false
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
 [node name="Ground2" type="TileMapLayer" parent="."]
+visible = false
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
 [node name="Cliff" type="TileMapLayer" parent="."]
+visible = false
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
@@ -54,13 +58,4 @@ z_index = 2
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
-[node name="ReactiveLabel" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-script = ExtResource("3_nuqob")
-
-[node name="LogicTile" type="Node" parent="."]
-script = ExtResource("4_7gx38")
-
 [connection signal="changed" from="Environment" to="." method="_on_environment_changed"]
-[connection signal="property_list_changed" from="ReactiveLabel" to="ReactiveLabel" method="_on_property_list_changed"]

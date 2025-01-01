@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://i0eluahn8bp0"]
+
+[ext_resource type="Script" path="res://Scenes/LogicTile/logic_tile.gd" id="1_jpjpd"]
+[ext_resource type="PackedScene" uid="uid://2vrljdef6ct2" path="res://Scenes/EnvironmentalState/environmental_state.tscn" id="2_wb7v8"]
+
+[node name="LogicTile" type="Node2D"]
+script = ExtResource("1_jpjpd")
+
+[node name="EnvironmentalState" parent="." instance=ExtResource("2_wb7v8")]

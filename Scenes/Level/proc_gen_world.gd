@@ -9,6 +9,7 @@ class_name ProcGenWorld extends Node2D
 @onready var cliff: TileMapLayer = $Cliff
 @onready var environment: TileMapLayer = $Environment
 @onready var level: Level = $".."
+@export var logic_tile : PackedScene
 
 var logic_tiles : Dictionary = {}
 
@@ -45,6 +46,7 @@ var oak_tree_atlas: Vector2i = Vector2i(15,6)
 func _ready() -> void:
 	noise = noise_height_text.noise
 	tree_noise = noise_tree_text.noise
+	EnvironmentalStateResolver.proc_world = self
 	generate_world()
 
 func generate_world() -> void:
@@ -60,17 +62,19 @@ func generate_world() -> void:
 					environment.set_cell(position, source_id, random_palm_tree_type)
 					var tiledata = environment.get_cell_tile_data(position)
 					
-					var label = ReactiveLabel.new()
-					var logic_tile = LogicTile.new().with_data(tiledata, position)
+					#var label = ReactiveLabel.new()
+					var logic_tile: LogicTile = logic_tile.instantiate().with_data(tiledata, position)
+					add_child(logic_tile)
+					#print(logic_tile.environmental_state)
+					#logic_tile.environmental_state = EnvironmentalState.new()
+					#logic_tile.environmental_state.set_elemental_state("is_burning"] = label.text
+					#label.logic_tile = logic_tile
 					
-					logic_tile.data["is_burning"] = label.text
-					label.logic_tile = logic_tile
-					
-					label.text = str(tiledata.get_custom_data("is_burning"))
-					label.position = environment.map_to_local(position)
-					label.show()
-					level.call_deferred("add_child", label)
-					logic_tile.nodes["label"] = label
+					#label.text = str(tiledata.get_custom_data("is_burning"))
+					#label.position = environment.map_to_local(position)
+					#label.show()
+					#level.call_deferred("add_child", label)
+					#logic_tile.nodes["label"] = label
 					
 					logic_tiles[position] = logic_tile
 						
