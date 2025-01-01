@@ -28,7 +28,7 @@ y_sort_enabled = true
 script = ExtResource("1_uucdy")
 noise_height_text = SubResource("NoiseTexture2D_7t0ol")
 noise_tree_text = SubResource("NoiseTexture2D_r1o3j")
-logic_tile = ExtResource("4_lyk88")
+logic_tile_packed_scene = ExtResource("4_lyk88")
 
 [node name="Water" type="TileMapLayer" parent="."]
 z_index = -1

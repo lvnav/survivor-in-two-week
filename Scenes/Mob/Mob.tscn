@@ -70,7 +70,7 @@ debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0.388235, 1, 1)
 
-[node name="HitBox" type="Area2D" parent="."]
+[node name="HitBox" type="Area2D" parent="." groups=["enemy"]]
 
 [node name="HitBoxCollisionShape" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CircleShape2D_mw3tk")

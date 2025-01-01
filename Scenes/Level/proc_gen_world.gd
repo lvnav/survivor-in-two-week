@@ -2,6 +2,7 @@ class_name ProcGenWorld extends Node2D
 
 @export var noise_height_text: NoiseTexture2D
 @export var noise_tree_text: NoiseTexture2D
+@export var logic_tile_packed_scene : PackedScene
 
 @onready var water: TileMapLayer = $Water
 @onready var ground_1: TileMapLayer = $Ground1
@@ -9,7 +10,6 @@ class_name ProcGenWorld extends Node2D
 @onready var cliff: TileMapLayer = $Cliff
 @onready var environment: TileMapLayer = $Environment
 @onready var level: Level = $".."
-@export var logic_tile : PackedScene
 
 var logic_tiles : Dictionary = {}
 
@@ -48,8 +48,8 @@ func _ready() -> void:
 	tree_noise = noise_tree_text.noise
 	EnvironmentalStateResolver.proc_world = self
 	generate_world()
-	var cliff_vectors = cliff.get_used_cells()
-	for cliff_vector in cliff_vectors:
+	var cliff_vectors: Array[Vector2i]  = cliff.get_used_cells()
+	for cliff_vector: Vector2i in cliff_vectors:
 		ground_1.erase_cell(cliff_vector)
 		ground_2.erase_cell(cliff_vector)
 		water.erase_cell(cliff_vector)
@@ -63,17 +63,18 @@ func generate_world() -> void:
 				if noise_val > 0 and noise_val < .17 and tree_noise_val > .85:
 					var random_palm_tree_type: Vector2i = palm_tree_atlas.pick_random()
 					
-					var position = Vector2i(x,y)
-					environment.set_cell(position, source_id, random_palm_tree_type)
-					var tiledata = environment.get_cell_tile_data(position)
+					var cell_position: Vector2i = Vector2i(x,y)
+					environment.set_cell(cell_position, source_id, random_palm_tree_type)
+					var tiledata: TileData = environment.get_cell_tile_data(cell_position)
 					
-					var logic_tile: LogicTile = logic_tile.instantiate().with_data(
+					var logic_tile: LogicTile = logic_tile_packed_scene.instantiate()
+					logic_tile = logic_tile.with_data(
 						tiledata,
-						position
+						cell_position
 					)
 					add_child(logic_tile)
 					
-					logic_tiles[position] = logic_tile
+					logic_tiles[cell_position] = logic_tile
 						
 				if noise_val > .2:
 					grass_tiles.append(Vector2i(x,y))

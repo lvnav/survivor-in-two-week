@@ -22,11 +22,11 @@ func _ready() -> void:
 		
 	parent = get_parent()
 
-func _process(delta: float) -> void:
-	container.position = get_parent().position
-	container.position.x = container.position.x - 100
+func _process(_delta: float) -> void:
+	container.position = parent.position
+	container.position.x = parent.position.x - 100
 	
-func set_elemental_state(key: String, new_value: bool):
+func set_elemental_state(key: String, new_value: bool) -> void:
 	if !elemental_states.has(key):
 		assert(false, "Unexpected key " + key)
 	elemental_states[key] = new_value
@@ -34,10 +34,11 @@ func set_elemental_state(key: String, new_value: bool):
 	actual_state_timer.start()
 	
 
-func is_altered():
-	for state in elemental_states.values():
+func is_altered() -> bool:
+	for state: bool in elemental_states.values():
 		if state != false:
 			return state
+	return false
 
 func _on_elemental_states_change(key: String, new_value: bool) -> void:
 	var label: Label

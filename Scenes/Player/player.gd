@@ -148,10 +148,11 @@ func _on_release_dodge_timer_timeout() -> void:
 	release_dodge_timer.stop()
 
 
-func _on_hit_box_area_entered(area) -> void:
-	if area is Mob:
-		set_remaining_life(remaining_life - area.damage)
+func _on_hit_box_area_entered(area: Area2D) -> void:
+	if area.is_in_group("enemy"):
+		var mob: Mob = area.get_parent()
+		set_remaining_life(remaining_life - mob.damage)
 
-func _on_hit_box_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+func _on_hit_box_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
 	EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)
 		
