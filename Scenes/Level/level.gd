@@ -7,7 +7,6 @@ class_name Level extends Node2D
 @onready var player: Player = $ProcGenWorld2/Player
 @onready var proc_gen_world_2: ProcGenWorld = $ProcGenWorld2
 
-
 @export var mob : PackedScene
 
 var score_value: int = 0
@@ -34,7 +33,7 @@ func _init_mob() -> void:
 	new_mob.die.connect(self._on_mob_die)
 	new_mob.visible = true
 	var spawner_position: Node2D = spawns.get_child(1)
-
+	new_mob.target = player
 	#var spawner_position: Node2D = spawns.get_child(randi_range(0, spawns.get_child_count()-1))
 	new_mob.position = spawner_position.position
 	new_mob.process_mode = Node.PROCESS_MODE_INHERIT

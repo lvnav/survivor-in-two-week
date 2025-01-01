@@ -41,6 +41,7 @@ y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
 [node name="Ground2" type="TileMapLayer" parent="."]
+visible = false
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
@@ -50,6 +51,7 @@ y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
 [node name="Environment" type="TileMapLayer" parent="." groups=["tree"]]
+visible = false
 z_index = 2
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")

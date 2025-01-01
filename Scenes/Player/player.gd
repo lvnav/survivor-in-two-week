@@ -11,7 +11,6 @@ const BASE_SPEED: float = 100.0
 
 @onready var attack_timer: Timer = $AttackTimer
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var dodge_timer: Timer = $DodgeTimer
 @onready var release_dodge_timer: Timer = $ReleaseDodgeTimer
 @onready var camera_2d: Camera2D = $Camera2D
@@ -23,6 +22,7 @@ const BASE_SPEED: float = 100.0
 @onready var label: Label = $Label
 @onready var environmental_state: EnvironmentalState = $EnvironmentalState
 @onready var environmental_state_sprite: EnvironmentalStateSprite = $EnvironmentalStateSprite
+@onready var sprite_2d: Sprite2D = $Sprite2D
 
 var local_game_state: String
 var player_state: String
@@ -74,15 +74,13 @@ func _move() -> void:
 	var direction: Vector2 = Input.get_vector("user_move_left", "user_move_right", "user_move_up", "user_move_down")
 	if (direction.x == 0 and direction.y == 0):
 		player_state = "idle"
-		animated_sprite_2d.pause()
 	else:
 		player_state = "move"
-		animated_sprite_2d.play()
 	
-	if ray_cast_2d.target_position.x > 0:
-		animated_sprite_2d.flip_h = true
+	if ray_cast_2d.target_position.x < 0:
+		sprite_2d.flip_h = true
 	else:
-		animated_sprite_2d.flip_h = false
+		sprite_2d.flip_h = false
 	
 	if (direction.x != 0 or direction.y != 0) and Input.is_action_just_pressed("dodge") and release_dodge_timer.is_stopped():
 		dodge_timer.start()
@@ -150,10 +148,9 @@ func _on_release_dodge_timer_timeout() -> void:
 	release_dodge_timer.stop()
 
 
-func _on_hit_box_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy"):
-		var mob: Mob = area
-		set_remaining_life(remaining_life - mob.damage)
+func _on_hit_box_area_entered(area) -> void:
+	if area is Mob:
+		set_remaining_life(remaining_life - area.damage)
 
 func _on_hit_box_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
 	EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)

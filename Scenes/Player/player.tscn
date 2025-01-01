@@ -1,42 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://clpovqi64r52s"]
+[gd_scene load_steps=11 format=3 uid="uid://clpovqi64r52s"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_cslsb"]
 [ext_resource type="PackedScene" uid="uid://d0lgfe3nmh2ok" path="res://Scenes/Bolt/Bolt.tscn" id="2_1cu1m"]
 [ext_resource type="Script" path="res://Scenes/Player/ray_cast_2d.gd" id="4_313ef"]
 [ext_resource type="Script" path="res://Scenes/Player/line_2d.gd" id="5_jwlo7"]
 [ext_resource type="Script" path="res://Scenes/Player/attack_timer.gd" id="6_2dg2o"]
-[ext_resource type="Texture2D" uid="uid://blxpvowf5sfrg" path="res://Assets/player_frames/row-1-column-1.png" id="7_rrsf4"]
-[ext_resource type="Texture2D" uid="uid://c0mxx5mbw6ovr" path="res://Assets/player_frames/row-2-column-1.png" id="8_kk73p"]
-[ext_resource type="Texture2D" uid="uid://d4npu82tujp0c" path="res://Assets/player_frames/row-2-column-4.png" id="9_5fvng"]
-[ext_resource type="Texture2D" uid="uid://cggjtub0ct6q8" path="res://Assets/player_frames/row-3-column-3.png" id="10_f0stl"]
 [ext_resource type="PackedScene" uid="uid://2vrljdef6ct2" path="res://Scenes/EnvironmentalState/environmental_state.tscn" id="11_1ekkp"]
-[ext_resource type="Texture2D" uid="uid://drbshhxlgentp" path="res://Assets/player_frames/row-4-column-6.png" id="11_eg204"]
 [ext_resource type="Script" path="res://Scenes/EnvironmentalStateSprite/environmental_state_sprite.gd" id="12_6lm4a"]
 [ext_resource type="Texture2D" uid="uid://b0b3nxcj4y4y7" path="res://Assets/character.png" id="13_qlxdv"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_f0ech"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("7_rrsf4")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8_kk73p")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_5fvng")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_f0stl")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_eg204")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_382uy"]
 radius = 80.0
@@ -71,15 +42,6 @@ wait_time = 0.3
 
 [node name="ReleaseDodgeTimer" type="Timer" parent="."]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-y_sort_enabled = true
-position = Vector2(15, 40)
-scale = Vector2(2.5, 2.5)
-sprite_frames = SubResource("SpriteFrames_f0ech")
-frame = 1
-frame_progress = 0.284294
-
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
 
@@ -88,6 +50,7 @@ y_sort_enabled = true
 shape = SubResource("CircleShape2D_382uy")
 
 [node name="HitBox" type="Area2D" parent="."]
+scale = Vector2(3.0942, 3.06476)
 collision_layer = 11
 collision_mask = 15
 

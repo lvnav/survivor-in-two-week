@@ -48,7 +48,12 @@ func _ready() -> void:
 	tree_noise = noise_tree_text.noise
 	EnvironmentalStateResolver.proc_world = self
 	generate_world()
-
+	var cliff_vectors = cliff.get_used_cells()
+	for cliff_vector in cliff_vectors:
+		ground_1.erase_cell(cliff_vector)
+		ground_2.erase_cell(cliff_vector)
+		water.erase_cell(cliff_vector)
+	
 func generate_world() -> void:
 	for x: int in range(-width/2.0, width/2.0):
 		for y:int in range(-height/2.0, height/2.0):
@@ -77,6 +82,7 @@ func generate_world() -> void:
 							environment.set_cell(Vector2i(x,y), source_id, oak_tree_atlas)
 						var random_grass: Vector2i = grass_atlas.pick_random()
 						ground_2.set_cell(Vector2i(x,y), source_id, random_grass)
+						
 					if noise_val > .3:
 						cliff_tiles.append(Vector2i(x,y))
 
@@ -86,3 +92,4 @@ func generate_world() -> void:
 	water.set_cells_terrain_connect(sand_tiles, terrain_sand_int, 0)
 	ground_1.set_cells_terrain_connect(grass_tiles, terrain_grass_int, 0)
 	cliff.set_cells_terrain_connect(cliff_tiles, terrain_cliff_int, 0)
+	

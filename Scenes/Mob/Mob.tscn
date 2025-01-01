@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://shmhpdkecxih"]
+[gd_scene load_steps=12 format=3 uid="uid://shmhpdkecxih"]
 
 [ext_resource type="Script" path="res://Scenes/Mob/mob.gd" id="1_batpi"]
 [ext_resource type="Texture2D" uid="uid://dn4m28xhd7ihn" path="res://Assets/mob_frames/row-2-column-4.png" id="3_m51p1"]
@@ -8,9 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://2vrljdef6ct2" path="res://Scenes/EnvironmentalState/environmental_state.tscn" id="7_4svo6"]
 [ext_resource type="Texture2D" uid="uid://dcxp1p7imrj4o" path="res://Assets/mob_frames/row-5-column-6.png" id="7_r8qdo"]
 [ext_resource type="Script" path="res://Scenes/EnvironmentalStateSprite/environmental_state_sprite.gd" id="8_15d7o"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_mw3tk"]
-radius = 45.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_eqfff"]
 resource_local_to_scene = true
@@ -36,14 +33,17 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Mob" type="Area2D" groups=["enemy"]]
+[sub_resource type="CircleShape2D" id="CircleShape2D_mw3tk"]
+radius = 45.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xog2x"]
+radius = 9.0
+height = 20.0
+
+[node name="Mob" type="CharacterBody2D" groups=["enemy"]]
 visibility_layer = 2
 collision_layer = 11
-collision_mask = 9
 script = ExtResource("1_batpi")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_mw3tk")
 
 [node name="Label" type="Label" parent="."]
 offset_left = 25.0
@@ -63,6 +63,22 @@ position = Vector2(7, 19)
 scale = Vector2(0.402344, 0.308594)
 sprite_frames = SubResource("SpriteFrames_eqfff")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 800.0
+path_postprocessing = 1
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(1, 0.388235, 1, 1)
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="HitBoxCollisionShape" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_mw3tk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 35)
+shape = SubResource("CapsuleShape2D_xog2x")
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="body_shape_entered" from="HitBox" to="." method="_on_hit_box_body_shape_entered"]
