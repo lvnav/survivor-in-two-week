@@ -8,9 +8,9 @@ class_name ProcGenWorld extends Node2D
 @onready var ground_2: TileMapLayer = $Ground2
 @onready var cliff: TileMapLayer = $Cliff
 @onready var environment: TileMapLayer = $Environment
-@onready var player: Player = $Player
 @onready var level: Level = $".."
 
+var logic_tiles : Dictionary = {}
 
 var noise: Noise
 var tree_noise: Noise
@@ -47,7 +47,6 @@ func _ready() -> void:
 	tree_noise = noise_tree_text.noise
 	generate_world()
 
-var logic_tiles : Array = []
 func generate_world() -> void:
 	for x: int in range(-width/2.0, width/2.0):
 		for y:int in range(-height/2.0, height/2.0):
@@ -60,13 +59,11 @@ func generate_world() -> void:
 					var position = Vector2i(x,y)
 					environment.set_cell(position, source_id, random_palm_tree_type)
 					var tiledata = environment.get_cell_tile_data(position)
+					
 					var label = ReactiveLabel.new()
+					var logic_tile = LogicTile.new().with_data(tiledata, position)
 					
-					var logic_tile = LogicTile.new()
-					
-					logic_tile.tiledata = tiledata
 					logic_tile.data["is_burning"] = label.text
-					logic_tile.cell_position = position
 					label.logic_tile = logic_tile
 					
 					label.text = str(tiledata.get_custom_data("is_burning"))
@@ -75,7 +72,7 @@ func generate_world() -> void:
 					level.call_deferred("add_child", label)
 					logic_tile.nodes["label"] = label
 					
-					logic_tiles.append(logic_tile)
+					logic_tiles[position] = logic_tile
 						
 				if noise_val > .2:
 					grass_tiles.append(Vector2i(x,y))

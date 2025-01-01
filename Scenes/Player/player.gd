@@ -20,6 +20,7 @@ const BASE_SPEED: float = 100.0
 @onready var hit_box: Area2D = $HitBox
 @onready var character_body_collision_shape: CollisionShape2D = $CharacterBodyCollisionShape
 @onready var proc_gen_world_2: ProcGenWorld = $".."
+@onready var label: Label = $Label
 
 var local_game_state: String
 var player_state: String
@@ -40,6 +41,7 @@ signal remaining_life_change
 signal has_no_hp
 signal attack_speed_modifier_has_changed
 signal shoot
+signal position_change
 
 func _ready() -> void:
 	hide()
@@ -53,6 +55,8 @@ func _physics_process(_delta: float) -> void:
 	if local_game_state != "play":
 		return
 	
+	label.text = str(position)
+	position_change.emit(position)
 	_zoom()
 	_move()
 	_aim()
@@ -158,7 +162,8 @@ func _on_hit_box_body_shape_entered(body_rid: RID, body: Node2D, body_shape_inde
 		var environment = proc_gen_world_2.environment
 		var tile = environment.get_cell_tile_data(cell_coords)
 		
-		for logic_tile: LogicTile in proc_gen_world_2.logic_tiles:
-			if logic_tile.cell_position == cell_coords:
-				logic_tile.data["is_burning"] = true
+		print("player",cell_coords)
+		if proc_gen_world_2.logic_tiles.has(cell_coords):
+			var logic_tile: LogicTile = proc_gen_world_2.logic_tiles[cell_coords]
+			logic_tile.data["is_burning"] = true
 		

@@ -28,7 +28,6 @@ visibility_layer = 2
 [node name="Player" parent="Level/ProcGenWorld2" instance=ExtResource("6_rbrhd")]
 
 [node name="Mob" parent="Level/ProcGenWorld2" instance=ExtResource("6_fgfgp")]
-process_mode = 4
 position = Vector2(13, 0)
 
 [node name="GameOverMenu" parent="." instance=ExtResource("8_gsu11")]
@@ -52,10 +51,8 @@ parameters/looping = true
 [connection signal="level_up" from="Level" to="Level/HUD" method="_on_level_up"]
 [connection signal="gui_input" from="Level/HUD" to="Level/HUD" method="_on_gui_input"]
 [connection signal="has_no_hp" from="Level/ProcGenWorld2/Player" to="." method="_on_player_has_no_hp"]
-[connection signal="position_change" from="Level/ProcGenWorld2/Player" to="Level/ProcGenWorld2/Mob" method="_on_player_position_change"]
 [connection signal="remaining_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_remaining_life_change"]
 [connection signal="shoot" from="Level/ProcGenWorld2/Player" to="Level" method="_on_player_shoot"]
 [connection signal="total_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_total_life_change"]
-[connection signal="area_shape_entered" from="Level/ProcGenWorld2/Mob" to="Level/ProcGenWorld2/Mob" method="_on_area_shape_entered"]
 [connection signal="restart_game_pressed" from="GameOverMenu" to="." method="_on_restart_game_pressed"]
 [connection signal="start_game" from="StartMenu" to="." method="_on_start_game"]

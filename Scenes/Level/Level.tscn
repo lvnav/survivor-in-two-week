@@ -9,18 +9,21 @@ script = ExtResource("1_ieq04")
 mob = ExtResource("2_w1lrs")
 
 [node name="MobSpawnTimer" type="Timer" parent="."]
+one_shot = true
 autostart = true
 
 [node name="Spawns" type="Node2D" parent="."]
-visible = false
 
 [node name="SpawnA" type="Node2D" parent="Spawns"]
+visible = false
 position = Vector2(22, -251)
 
 [node name="SpawnB" type="Node2D" parent="Spawns"]
+visible = false
 position = Vector2(506, 263)
 
 [node name="SpawnC" type="Node2D" parent="Spawns"]
+visible = false
 position = Vector2(8, 412)
 
 [node name="SpawnD" type="Node2D" parent="Spawns"]

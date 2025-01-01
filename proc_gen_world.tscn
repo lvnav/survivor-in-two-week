@@ -31,25 +31,21 @@ noise_height_text = SubResource("NoiseTexture2D_7t0ol")
 noise_tree_text = SubResource("NoiseTexture2D_r1o3j")
 
 [node name="Water" type="TileMapLayer" parent="."]
-visible = false
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
 [node name="Ground1" type="TileMapLayer" parent="."]
-visible = false
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
 [node name="Ground2" type="TileMapLayer" parent="."]
-visible = false
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 
 [node name="Cliff" type="TileMapLayer" parent="."]
-visible = false
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 

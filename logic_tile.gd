@@ -3,17 +3,17 @@ class_name LogicTile extends Node
 var tiledata: TileData
 var nodes: Dictionary = {}
 var data: Dictionary = {}
-var cell_position: Vector2i 
+var cell_position: Vector2i
+#var is_logic_tile: bool = true
 
-#static func create(new_tiledata: TileData) -> LogicTile:
-	#tiledata = new_tiledata
-	#return 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
+	
+func with_data(new_tiledata: TileData, new_cell_position: Vector2i) -> LogicTile:
+	tiledata = new_tiledata
+	cell_position = new_cell_position
+	
+	return self
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
