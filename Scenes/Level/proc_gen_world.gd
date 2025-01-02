@@ -1,4 +1,4 @@
-class_name ProcGenWorld extends Node2D
+class_name ProcGenWorld extends NavigationRegion2D
 
 @export var noise_height_text: NoiseTexture2D
 @export var noise_tree_text: NoiseTexture2D
@@ -16,8 +16,8 @@ var logic_tiles : Dictionary = {}
 var noise: Noise
 var tree_noise: Noise
 
-var width: int = 100
-var height: int = 100
+var width: int = 200
+var height: int = 200
 
 var source_id: int = 0
 var water_atlas: Vector2i = Vector2i(0, 1)
@@ -53,6 +53,8 @@ func _ready() -> void:
 		ground_1.erase_cell(cliff_vector)
 		ground_2.erase_cell(cliff_vector)
 		water.erase_cell(cliff_vector)
+	bake_navigation_polygon()
+	
 	
 func generate_world() -> void:
 	for x: int in range(-width/2.0, width/2.0):

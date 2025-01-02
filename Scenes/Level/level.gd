@@ -32,10 +32,10 @@ func _init_mob() -> void:
 	var new_mob: Mob = mob.instantiate()
 	new_mob.die.connect(self._on_mob_die)
 	new_mob.visible = true
-	var spawner_position: Node2D = spawns.get_child(1)
+	#var spawner_position: Node2D = spawns.get_child(1)
 	new_mob.target = player
 	#var spawner_position: Node2D = spawns.get_child(randi_range(0, spawns.get_child_count()-1))
-	new_mob.position = spawner_position.position
+	new_mob.position = Vector2(400,50)
 	new_mob.process_mode = Node.PROCESS_MODE_INHERIT
 	add_child(new_mob)
 

@@ -1,8 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dvn26i4m8i8i7"]
+[gd_scene load_steps=10 format=3 uid="uid://dvn26i4m8i8i7"]
 
 [ext_resource type="Script" path="res://Scenes/Level/proc_gen_world.gd" id="1_uucdy"]
 [ext_resource type="TileSet" uid="uid://bixen2pbc7wlb" path="res://Scenes/Level/tileset.tres" id="2_34xxr"]
 [ext_resource type="PackedScene" uid="uid://i0eluahn8bp0" path="res://Scenes/LogicTile/logic_tile.tscn" id="4_lyk88"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_vlxh8"]
+source_geometry_group_name = &"navigable"
 
 [sub_resource type="Gradient" id="Gradient_167cy"]
 interpolation_mode = 1
@@ -11,6 +14,7 @@ colors = PackedColorArray(0, 0, 0.815686, 1, 0.712696, 0.662335, 0.202224, 1, 0.
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_hk1h8"]
 seed = 3
+frequency = 0.0147
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7t0ol"]
 color_ramp = SubResource("Gradient_167cy")
@@ -23,37 +27,39 @@ fractal_octaves = 1
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r1o3j"]
 noise = SubResource("FastNoiseLite_wg0lw")
 
-[node name="ProcGenWorld" type="Node2D"]
+[node name="ProcGenWorld" type="NavigationRegion2D" groups=["navigable"]]
 y_sort_enabled = true
+navigation_polygon = SubResource("NavigationPolygon_vlxh8")
 script = ExtResource("1_uucdy")
 noise_height_text = SubResource("NoiseTexture2D_7t0ol")
 noise_tree_text = SubResource("NoiseTexture2D_r1o3j")
 logic_tile_packed_scene = ExtResource("4_lyk88")
 
-[node name="Water" type="TileMapLayer" parent="."]
+[node name="Water" type="TileMapLayer" parent="." groups=["navigable"]]
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
+navigation_enabled = false
 
-[node name="Ground1" type="TileMapLayer" parent="."]
+[node name="Ground1" type="TileMapLayer" parent="." groups=["navigable"]]
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
+navigation_enabled = false
 
-[node name="Ground2" type="TileMapLayer" parent="."]
-visible = false
+[node name="Ground2" type="TileMapLayer" parent="." groups=["navigable"]]
 z_index = -1
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
+navigation_enabled = false
 
 [node name="Cliff" type="TileMapLayer" parent="."]
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
+navigation_enabled = false
 
 [node name="Environment" type="TileMapLayer" parent="." groups=["tree"]]
-visible = false
 z_index = 2
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
-
-[connection signal="changed" from="Environment" to="." method="_on_environment_changed"]
+navigation_enabled = false

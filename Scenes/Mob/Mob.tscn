@@ -43,6 +43,7 @@ height = 20.0
 [node name="Mob" type="CharacterBody2D" groups=["enemy"]]
 visibility_layer = 2
 collision_layer = 11
+safe_margin = 30.0
 script = ExtResource("1_batpi")
 
 [node name="Label" type="Label" parent="."]
@@ -55,6 +56,7 @@ offset_bottom = -33.0
 priority = 2
 
 [node name="EnvironmentalStateSprite" type="Sprite2D" parent="."]
+visible = false
 script = ExtResource("8_15d7o")
 custom_scale = Vector2(0.3, 0.3)
 
@@ -64,7 +66,8 @@ scale = Vector2(0.402344, 0.308594)
 sprite_frames = SubResource("SpriteFrames_eqfff")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 800.0
+path_desired_distance = 31.51
+path_max_distance = 150.0
 path_postprocessing = 1
 debug_enabled = true
 debug_use_custom = true

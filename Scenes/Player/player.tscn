@@ -9,12 +9,13 @@
 [ext_resource type="Script" path="res://Scenes/EnvironmentalStateSprite/environmental_state_sprite.gd" id="12_6lm4a"]
 [ext_resource type="Texture2D" uid="uid://b0b3nxcj4y4y7" path="res://Assets/character.png" id="13_qlxdv"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_382uy"]
-radius = 80.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1m36f"]
+radius = 15.3108
+height = 30.6217
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mlcig"]
-radius = 50.0
-height = 160.0
+radius = 42.0141
+height = 123.99
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
@@ -43,11 +44,17 @@ wait_time = 0.3
 [node name="ReleaseDodgeTimer" type="Timer" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
+limit_left = -1600
+limit_top = -1600
+limit_right = 1580
+limit_bottom = 1580
+limit_smoothed = true
 
 [node name="CharacterBodyCollisionShape" type="CollisionShape2D" parent="."]
 y_sort_enabled = true
-shape = SubResource("CircleShape2D_382uy")
+position = Vector2(0, -3.8147e-06)
+scale = Vector2(-7.453, 12.7361)
+shape = SubResource("CapsuleShape2D_1m36f")
 
 [node name="HitBox" type="Area2D" parent="."]
 scale = Vector2(3.0942, 3.06476)
@@ -75,6 +82,7 @@ script = ExtResource("12_6lm4a")
 custom_scale = Vector2(1.7, 1.7)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.703125, 0.742188)
 texture = ExtResource("13_qlxdv")
 
 [connection signal="attack_speed_modifier_has_changed" from="." to="AttackTimer" method="_on_player_attack_speed_modifier_has_changed"]

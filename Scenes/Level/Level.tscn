@@ -26,9 +26,6 @@ position = Vector2(506, 263)
 visible = false
 position = Vector2(8, 412)
 
-[node name="SpawnD" type="Node2D" parent="Spawns"]
-position = Vector2(-472, 267)
-
 [node name="UpHandler" type="Node" parent="."]
 script = ExtResource("3_pod3h")
 

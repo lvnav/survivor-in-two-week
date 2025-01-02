@@ -2,7 +2,7 @@ class_name Player extends CharacterBody2D
 
 var BoltPacked: PackedScene = preload("res://Scenes/Bolt/Bolt.tscn")
 const DEFAULT_TOTAL_LIFE: int = 100
-const BASE_SPEED: float = 100.0
+const BASE_SPEED: float = 300.0
 
 @export var bolt: PackedScene
 @export var bolts: Array[Bolt]

@@ -19,7 +19,8 @@ var target: Player
 signal die
 
 func _ready() -> void:
-	environmental_state_sprite.environmental_state = environmental_state
+	environmental_state_sprite.environmental_state = environmental_state#
+	
 
 func _physics_process(_delta: float) -> void:
 	if direction.x < position.x:
@@ -29,10 +30,10 @@ func _physics_process(_delta: float) -> void:
 	
 	if label != null:
 		label.text = str(position)
-
 	if target != null:
 		navigation_agent_2d.target_position = target.position
-		var new_velocity: Vector2 = global_position.direction_to(navigation_agent_2d.get_next_path_position())
+		direction = navigation_agent_2d.get_next_path_position()
+		var new_velocity: Vector2 = global_position.direction_to(direction)
 		_on_navigation_agent_2d_velocity_computed(new_velocity)
 		move_and_slide()
 	
