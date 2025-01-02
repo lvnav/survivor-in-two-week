@@ -1,6 +1,5 @@
 class_name Level extends Node2D
 
-@onready var spawns: Node2D = $Spawns
 @onready var hud: Hud = $HUD
 @onready var root: Root = $".."
 @onready var up_handler: UpHandler = $UpHandler
@@ -29,13 +28,13 @@ func _init_mob() -> void:
 	if root.game_state != root.GAME_STATE_PLAY:
 		return
 
+	var spawn_position: Vector2 = find_spawn_position()
 	var new_mob: Mob = mob.instantiate()
+
 	new_mob.die.connect(self._on_mob_die)
 	new_mob.visible = true
-	#var spawner_position: Node2D = spawns.get_child(1)
 	new_mob.target = player
-	#var spawner_position: Node2D = spawns.get_child(randi_range(0, spawns.get_child_count()-1))
-	new_mob.position = Vector2(400,50)
+	new_mob.position = spawn_position
 	new_mob.process_mode = Node.PROCESS_MODE_INHERIT
 	add_child(new_mob)
 
@@ -87,3 +86,23 @@ func _on_player_shoot(BoltPacked: PackedScene, direction: float, location: Vecto
 		spawned_bullet.environmental_state.set_elemental_state("wet", false)
 	
 	
+func find_spawn_position() -> Vector2:
+	var proc_world: ProcGenWorld = EnvironmentalStateResolver.proc_world
+	var spawnable_positions: Array[Vector2i] = proc_world.ground_1.get_used_cells()
+	spawnable_positions = spawnable_positions.duplicate()
+	spawnable_positions.append_array(proc_world.ground_2.get_used_cells())
+	
+	var camera_size: Vector2 = get_viewport_rect().size * player.camera_2d.zoom 
+	var camera_oversize: Vector2 = camera_size * 2
+	var camera_rect: Rect2 = Rect2(player.camera_2d.get_screen_center_position() - camera_size / 2, camera_size)
+	var camera_rect_oversize: Rect2 = Rect2(player.camera_2d.get_screen_center_position() - camera_oversize / 2, camera_oversize)
+	
+	var has_find: bool = false
+	var spawn_position: Vector2
+	while !has_find:
+		var spawnable_pos: Vector2i = spawnable_positions.pick_random()
+		var local_spawnable_pos: Vector2 = proc_world.ground_1.map_to_local(spawnable_pos)
+		if !camera_rect.has_point(local_spawnable_pos) and camera_rect_oversize.has_point(local_spawnable_pos):
+			spawn_position = proc_world.ground_1.map_to_local(spawnable_pos)
+			has_find = true
+	return spawn_position

@@ -1,8 +1,9 @@
 class_name Player extends CharacterBody2D
 
 var BoltPacked: PackedScene = preload("res://Scenes/Bolt/Bolt.tscn")
+
 const DEFAULT_TOTAL_LIFE: int = 100
-const BASE_SPEED: float = 300.0
+const BASE_SPEED: float = 500.0
 
 @export var bolt: PackedScene
 @export var bolts: Array[Bolt]
@@ -18,7 +19,6 @@ const BASE_SPEED: float = 300.0
 @onready var state_indicator: HBoxContainer = $StateIndicator
 @onready var hit_box: Area2D = $HitBox
 @onready var character_body_collision_shape: CollisionShape2D = $CharacterBodyCollisionShape
-@onready var proc_gen_world_2: ProcGenWorld = $".."
 @onready var label: Label = $Label
 @onready var environmental_state: EnvironmentalState = $EnvironmentalState
 @onready var environmental_state_sprite: EnvironmentalStateSprite = $EnvironmentalStateSprite
@@ -53,7 +53,7 @@ func _ready() -> void:
 	set_total_life(DEFAULT_TOTAL_LIFE)
 	set_remaining_life(DEFAULT_TOTAL_LIFE)
 	environmental_state_sprite.environmental_state = environmental_state
-
+	
 func _physics_process(_delta: float) -> void:
 	if local_game_state != "play":
 		return
@@ -77,7 +77,7 @@ func _move() -> void:
 	else:
 		player_state = "move"
 	
-	if ray_cast_2d.target_position.x < 0:
+	if to_local(ray_cast_2d.target_position).x < 0:
 		sprite_2d.flip_h = true
 	else:
 		sprite_2d.flip_h = false

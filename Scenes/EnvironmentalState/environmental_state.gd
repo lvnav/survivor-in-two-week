@@ -31,6 +31,7 @@ func set_elemental_state(key: String, new_value: bool) -> void:
 		assert(false, "Unexpected key " + key)
 	elemental_states[key] = new_value
 	elemental_states_change.emit(key, new_value)
+	
 	actual_state_timer.start()
 	
 

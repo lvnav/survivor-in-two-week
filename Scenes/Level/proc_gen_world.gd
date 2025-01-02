@@ -9,7 +9,6 @@ class_name ProcGenWorld extends NavigationRegion2D
 @onready var ground_2: TileMapLayer = $Ground2
 @onready var cliff: TileMapLayer = $Cliff
 @onready var environment: TileMapLayer = $Environment
-@onready var level: Level = $".."
 
 var logic_tiles : Dictionary = {}
 
@@ -57,8 +56,17 @@ func _ready() -> void:
 	
 	
 func generate_world() -> void:
-	for x: int in range(-width/2.0, width/2.0):
-		for y:int in range(-height/2.0, height/2.0):
+	var min_width: float = -width/2.0
+	var max_width: float = width/2.0
+	var min_height: float = -height/2.0
+	var max_height: float = height/2.0
+	
+	for x: int in range(min_width, max_width):
+		for y:int in range(min_height, max_height):
+			if x == min_width or x == max_width - 1 or y == min_height or y == max_height - 1:
+				cliff_tiles.append(Vector2i(x,y))
+				continue
+				
 			var noise_val: float = noise.get_noise_2d(x,y)
 			var tree_noise_val: float = tree_noise.get_noise_2d(x,y)
 			if noise_val >= -0.2:
@@ -70,6 +78,7 @@ func generate_world() -> void:
 					var tiledata: TileData = environment.get_cell_tile_data(cell_position)
 					
 					var logic_tile: LogicTile = logic_tile_packed_scene.instantiate()
+					
 					logic_tile = logic_tile.with_data(
 						tiledata,
 						cell_position

@@ -44,10 +44,10 @@ wait_time = 0.3
 [node name="ReleaseDodgeTimer" type="Timer" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-limit_left = -1600
+limit_left = -1610
 limit_top = -1600
 limit_right = 1580
-limit_bottom = 1580
+limit_bottom = 1600
 limit_smoothed = true
 
 [node name="CharacterBodyCollisionShape" type="CollisionShape2D" parent="."]

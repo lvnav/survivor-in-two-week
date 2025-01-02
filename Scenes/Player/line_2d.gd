@@ -8,7 +8,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	set_point_position(0, player.position.normalized())
-	set_point_position(1, ray_cast_2d.target_position.limit_length(400))
+	set_point_position(0, to_local(player.position))
+	set_point_position(1, to_local(ray_cast_2d.target_position))
 	
 	pass

@@ -37,8 +37,8 @@ animations = [{
 radius = 45.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xog2x"]
-radius = 9.0
-height = 20.0
+radius = 30.0
+height = 60.0
 
 [node name="Mob" type="CharacterBody2D" groups=["enemy"]]
 visibility_layer = 2
@@ -66,8 +66,8 @@ scale = Vector2(0.402344, 0.308594)
 sprite_frames = SubResource("SpriteFrames_eqfff")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 31.51
-path_max_distance = 150.0
+path_desired_distance = 210.0
+target_desired_distance = 50.0
 path_postprocessing = 1
 debug_enabled = true
 debug_use_custom = true
@@ -79,7 +79,6 @@ debug_path_custom_color = Color(1, 0.388235, 1, 1)
 shape = SubResource("CircleShape2D_mw3tk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 35)
 shape = SubResource("CapsuleShape2D_xog2x")
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

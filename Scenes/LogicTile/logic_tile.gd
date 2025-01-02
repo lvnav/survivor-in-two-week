@@ -22,4 +22,6 @@ func _on_environmental_state_elemental_state_consumed() -> void:
 		EnvironmentalStateResolver.proc_world.environment.erase_cell(
 			EnvironmentalStateResolver.proc_world.environment.local_to_map(position)
 		)
+		if !EnvironmentalStateResolver.proc_world.is_baking():
+			EnvironmentalStateResolver.proc_world.bake_navigation_polygon()
 		environmental_state_sprite.hide()
