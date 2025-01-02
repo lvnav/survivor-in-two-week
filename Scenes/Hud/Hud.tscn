@@ -2,53 +2,20 @@
 
 [ext_resource type="Script" path="res://Scenes/Hud/hud.gd" id="1_x335j"]
 
-[node name="HUD" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-mouse_filter = 2
+[node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_x335j")
 
-[node name="LifeIndicator" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="LevelUpMenu" type="HBoxContainer" parent="."]
 
-[node name="RemainingLife" type="Label" parent="LifeIndicator"]
+[node name="Button" type="Button" parent="LevelUpMenu"]
+visible = false
 layout_mode = 2
-offset_right = 28.0
-offset_bottom = 23.0
-text = "000"
-
-[node name="Separator" type="Label" parent="LifeIndicator"]
-layout_mode = 0
-offset_left = 28.0
-offset_right = 68.0
-offset_bottom = 23.0
-text = "/"
-
-[node name="TotalLife" type="Label" parent="LifeIndicator"]
-layout_mode = 0
-offset_left = 35.0
-offset_right = 63.0
-offset_bottom = 23.0
-text = "000"
-
-[node name="ScoreIndicator" type="Label" parent="."]
-layout_mode = 0
-offset_left = 72.0
-offset_right = 112.0
-offset_bottom = 23.0
-text = "0"
-
-[node name="LevelUpMenu" type="VFlowContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+text = "asdasda"
 
 [node name="LevelUpCard" type="Control" parent="."]
+layout_mode = 3
 anchors_preset = 0
-offset_left = 107.0
-offset_right = 147.0
+offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Name" type="Label" parent="LevelUpCard"]
@@ -60,3 +27,39 @@ offset_bottom = 23.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -35.5
+offset_top = -50.0
+offset_right = 35.5
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(35, 25)
+alignment = 1
+
+[node name="LifeIndicator" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RemainingLife" type="Label" parent="VBoxContainer/LifeIndicator"]
+layout_mode = 2
+text = "000"
+
+[node name="Separator" type="Label" parent="VBoxContainer/LifeIndicator"]
+layout_mode = 2
+text = "/"
+
+[node name="TotalLife" type="Label" parent="VBoxContainer/LifeIndicator"]
+layout_mode = 2
+text = "000"
+
+[node name="ScoreIndicator" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1

@@ -9,7 +9,7 @@ script = ExtResource("1_ieq04")
 mob = ExtResource("2_w1lrs")
 
 [node name="MobSpawnTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 4.0
 autostart = true
 
 [node name="UpHandler" type="Node" parent="."]

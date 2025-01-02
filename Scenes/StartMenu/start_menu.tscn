@@ -2,25 +2,24 @@
 
 [ext_resource type="Script" path="res://Scenes/StartMenu/start_menu.gd" id="1_qtw41"]
 
-[node name="StartMenu" type="Control"]
-layout_mode = 3
+[node name="StartMenu" type="BoxContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -15.5
+offset_right = 23.0
+offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(6, 6)
+pivot_offset = Vector2(23, 15)
 script = ExtResource("1_qtw41")
 
-[node name="HFlowContainer" type="HFlowContainer" parent="."]
-layout_mode = 0
-offset_right = 46.0
-offset_bottom = 31.0
-
-[node name="StartButton" type="Button" parent="HFlowContainer"]
+[node name="StartButton" type="Button" parent="."]
 layout_mode = 2
 text = "Start"
 
-[connection signal="pressed" from="HFlowContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

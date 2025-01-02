@@ -47,6 +47,7 @@ safe_margin = 30.0
 script = ExtResource("1_batpi")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = 25.0
 offset_top = -56.0
 offset_right = 65.0
@@ -56,7 +57,6 @@ offset_bottom = -33.0
 priority = 2
 
 [node name="EnvironmentalStateSprite" type="Sprite2D" parent="."]
-visible = false
 script = ExtResource("8_15d7o")
 custom_scale = Vector2(0.3, 0.3)
 

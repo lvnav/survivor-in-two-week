@@ -5,30 +5,35 @@ const OPTIONS: Array[Dictionary] = [
 	{
 		"type": "stat",
 		"stat": "attack_damage",
+		"description": "Attack damage up",
 		"modifier": 50.,
 		"rarity": 1
 	},
 	{
 		"type": "stat",
 		"stat": "attack_speed",
+		"description": "Attack speed up",
 		"modifier": 10.,
 		"rarity": 1
 	},
 	{
 		"type": "stat",
 		"stat": "move_speed",
+		"description": "Move speed up",
 		"modifier": 20.,
 		"rarity": 1
 	},
 	{
 		"type": "stat",
 		"stat": "leech",
+		"description": "Leech life",
 		"modifier": 5.,
 		"rarity": 2
 	},
 	{
 		"type": "skill",
 		"name": "piercing_projectile",
+		"description": "Wow. Piercing projectile",
 		"rarity": 3
 	},
 	#{

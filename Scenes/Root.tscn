@@ -16,23 +16,16 @@ script = ExtResource("2_emk15")
 position = Vector2(-13, 0)
 
 [node name="HUD" parent="Level" instance=ExtResource("7_e6ye5")]
-offset_left = -139.0
-offset_top = 320.0
-offset_right = -139.0
-offset_bottom = 320.0
+
+[node name="GameOverMenu" parent="Level/HUD" instance=ExtResource("8_gsu11")]
+
+[node name="StartMenu" parent="Level/HUD" instance=ExtResource("3_wkcoi")]
+alignment = 1
 
 [node name="ProcGenWorld2" parent="Level" instance=ExtResource("6_ge0mj")]
 visibility_layer = 2
 
 [node name="Player" parent="Level/ProcGenWorld2" instance=ExtResource("6_rbrhd")]
-
-[node name="GameOverMenu" parent="." instance=ExtResource("8_gsu11")]
-
-[node name="StartMenu" parent="." instance=ExtResource("3_wkcoi")]
-offset_left = -728.0
-offset_top = -414.0
-offset_right = -728.0
-offset_bottom = -414.0
 
 [node name="MainAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 4
@@ -41,14 +34,13 @@ autoplay = true
 parameters/looping = true
 
 [connection signal="game_state_change" from="." to="Level" method="_on_game_state_change"]
+[connection signal="game_state_change" from="." to="Level/HUD/GameOverMenu" method="_on_game_state_change"]
+[connection signal="game_state_change" from="." to="Level/HUD/StartMenu" method="_on_game_state_change"]
 [connection signal="game_state_change" from="." to="Level/ProcGenWorld2/Player" method="_on_game_state_change"]
-[connection signal="game_state_change" from="." to="GameOverMenu" method="_on_game_state_change"]
-[connection signal="game_state_change" from="." to="StartMenu" method="_on_game_state_change"]
 [connection signal="level_up" from="Level" to="Level/HUD" method="_on_level_up"]
-[connection signal="gui_input" from="Level/HUD" to="Level/HUD" method="_on_gui_input"]
+[connection signal="restart_game_pressed" from="Level/HUD/GameOverMenu" to="." method="_on_restart_game_pressed"]
+[connection signal="start_game" from="Level/HUD/StartMenu" to="." method="_on_start_game"]
 [connection signal="has_no_hp" from="Level/ProcGenWorld2/Player" to="." method="_on_player_has_no_hp"]
 [connection signal="remaining_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_remaining_life_change"]
 [connection signal="shoot" from="Level/ProcGenWorld2/Player" to="Level" method="_on_player_shoot"]
 [connection signal="total_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_total_life_change"]
-[connection signal="restart_game_pressed" from="GameOverMenu" to="." method="_on_restart_game_pressed"]
-[connection signal="start_game" from="StartMenu" to="." method="_on_start_game"]

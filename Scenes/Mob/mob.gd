@@ -13,17 +13,17 @@ static var player_position: Vector2i
 
 var is_touched_by_bullet: bool = false
 var damage: int = 20
-var life: int = 400
+var life: int = 40
 var is_burning: bool = false
 var target: Player
 signal die
 
 func _ready() -> void:
-	environmental_state_sprite.environmental_state = environmental_state#
+	environmental_state_sprite.environmental_state = environmental_state
 	
 
 func _physics_process(_delta: float) -> void:
-	if direction.x < position.x:
+	if direction.x > position.x:
 		animated_sprite_2d.flip_h = true
 	
 	animated_sprite_2d.play()

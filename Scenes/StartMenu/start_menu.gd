@@ -1,7 +1,7 @@
 extends Control
 
 signal start_game
-@onready var start_button: Button = $HFlowContainer/StartButton
+@onready var start_button: Button = $StartButton
 
 
 func _on_start_button_pressed() -> void:

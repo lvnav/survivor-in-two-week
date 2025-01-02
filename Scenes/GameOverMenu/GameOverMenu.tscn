@@ -2,15 +2,22 @@
 
 [ext_resource type="Script" path="res://Scenes/GameOverMenu/game_over_menu.gd" id="1_hc2y6"]
 
-[node name="GameOverMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[node name="GameOverMenu" type="BoxContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.5
+offset_top = -29.0
+offset_right = 33.5
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_hc2y6")
 
 [node name="HFlowContainer" type="HFlowContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 2
 
 [node name="GameOverLabel" type="Label" parent="HFlowContainer"]
 layout_mode = 2

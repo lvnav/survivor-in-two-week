@@ -5,6 +5,7 @@ class_name Level extends Node2D
 @onready var up_handler: UpHandler = $UpHandler
 @onready var player: Player = $ProcGenWorld2/Player
 @onready var proc_gen_world_2: ProcGenWorld = $ProcGenWorld2
+@onready var mob_spawn_timer: Timer = $MobSpawnTimer
 
 @export var mob : PackedScene
 
@@ -17,12 +18,13 @@ func _ready() -> void:
 	_init_mob()
 
 func _process(_delta: float) -> void:
-	if need_up:
+	if need_up or Input.is_action_just_pressed("debug_up"):
 		get_tree().paused = true
-		level_up.emit(up_handler.OPTIONS)
+		level_up.emit([up_handler.OPTIONS.pick_random(),up_handler.OPTIONS.pick_random(),up_handler.OPTIONS.pick_random()])
 
 func _on_mob_spawn_timeout() -> void:
 	_init_mob()
+	mob_spawn_timer.wait_time = mob_spawn_timer.wait_time * .95
 
 func _init_mob() -> void:
 	if root.game_state != root.GAME_STATE_PLAY:
