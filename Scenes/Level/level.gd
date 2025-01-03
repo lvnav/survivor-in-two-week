@@ -73,7 +73,8 @@ func end_game() -> void:
 
 func _on_player_shoot(BoltPacked: PackedScene, direction: float, location: Vector2, shooter: Player) -> void:
 	var spawned_bullet: Bolt = BoltPacked.instantiate()
-	spawned_bullet.rotation = direction
+	#if direction p
+	spawned_bullet.rotation = direction + (3 * PI / 2)
 	spawned_bullet.position = location
 	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)
 	spawned_bullet.shoot_origin = shooter

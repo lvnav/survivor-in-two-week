@@ -1,13 +1,21 @@
-[gd_scene load_steps=11 format=3 uid="uid://clpovqi64r52s"]
+[gd_scene load_steps=23 format=3 uid="uid://clpovqi64r52s"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_cslsb"]
 [ext_resource type="PackedScene" uid="uid://d0lgfe3nmh2ok" path="res://Scenes/Bolt/Bolt.tscn" id="2_1cu1m"]
 [ext_resource type="Script" path="res://Scenes/Player/ray_cast_2d.gd" id="4_313ef"]
 [ext_resource type="Script" path="res://Scenes/Player/line_2d.gd" id="5_jwlo7"]
 [ext_resource type="Script" path="res://Scenes/Player/attack_timer.gd" id="6_2dg2o"]
+[ext_resource type="Texture2D" uid="uid://bvacvnfsnlq0p" path="res://Assets/Player/character_torso.png" id="9_1wpl4"]
+[ext_resource type="Texture2D" uid="uid://ojcjsj01yooy" path="res://Assets/Player/character_left_arm.png" id="10_70yf6"]
 [ext_resource type="PackedScene" uid="uid://2vrljdef6ct2" path="res://Scenes/EnvironmentalState/environmental_state.tscn" id="11_1ekkp"]
+[ext_resource type="Texture2D" uid="uid://xdp3pv8luhc2" path="res://Assets/Player/character_wand.png" id="11_dueqx"]
 [ext_resource type="Script" path="res://Scenes/EnvironmentalStateSprite/environmental_state_sprite.gd" id="12_6lm4a"]
+[ext_resource type="Texture2D" uid="uid://chx5xapybtv7o" path="res://Assets/Player/character_right_arm.png" id="12_deoxw"]
+[ext_resource type="Texture2D" uid="uid://bcudtvcwjgxij" path="res://Assets/Player/character_left_leg.png" id="13_8fvsu"]
 [ext_resource type="Texture2D" uid="uid://b0b3nxcj4y4y7" path="res://Assets/character.png" id="13_qlxdv"]
+[ext_resource type="Texture2D" uid="uid://b1afs07krc8q7" path="res://Assets/Player/character_right_leg.png" id="14_hj442"]
+[ext_resource type="Texture2D" uid="uid://dhhi14rmj0usl" path="res://Assets/Player/character_head.png" id="15_pseto"]
+[ext_resource type="Texture2D" uid="uid://dj5b7aa0pioqp" path="res://Assets/Player/character_hat.png" id="16_e7xtx"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1m36f"]
 radius = 15.3108
@@ -16,6 +24,47 @@ height = 30.6217
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mlcig"]
 radius = 42.0141
 height = 123.99
+
+[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_5wuh8"]
+
+[sub_resource type="Animation" id="Animation_h4tgp"]
+resource_name = "test"
+length = 2.52
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SkeletonContainer/Parts/CharacterTorso/CharacterRightLeg:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_fi8lc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SkeletonContainer/Parts/CharacterTorso/CharacterRightLeg:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-95, -4.99999)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y6egc"]
+_data = {
+"RESET": SubResource("Animation_fi8lc"),
+"test": SubResource("Animation_h4tgp")
+}
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
@@ -51,12 +100,14 @@ limit_bottom = 1600
 limit_smoothed = true
 
 [node name="CharacterBodyCollisionShape" type="CollisionShape2D" parent="."]
+visible = false
 y_sort_enabled = true
 position = Vector2(0, -3.8147e-06)
 scale = Vector2(-7.453, 12.7361)
 shape = SubResource("CapsuleShape2D_1m36f")
 
 [node name="HitBox" type="Area2D" parent="."]
+visible = false
 scale = Vector2(3.0942, 3.06476)
 collision_layer = 11
 collision_mask = 15
@@ -82,8 +133,108 @@ script = ExtResource("12_6lm4a")
 custom_scale = Vector2(1.7, 1.7)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(0.703125, 0.742188)
 texture = ExtResource("13_qlxdv")
+
+[node name="SkeletonContainer" type="Node2D" parent="."]
+
+[node name="Parts" type="Node2D" parent="SkeletonContainer"]
+
+[node name="CharacterTorso" type="Sprite2D" parent="SkeletonContainer/Parts"]
+scale = Vector2(1, 1)
+texture = ExtResource("9_1wpl4")
+
+[node name="CharacterLeftArm" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
+texture = ExtResource("10_70yf6")
+
+[node name="CharacterWand" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso/CharacterLeftArm"]
+texture = ExtResource("11_dueqx")
+
+[node name="CharacterRightArm" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
+texture = ExtResource("12_deoxw")
+
+[node name="CharacterLeftLeg" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
+texture = ExtResource("13_8fvsu")
+
+[node name="CharacterRightLeg" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
+position = Vector2(-95, -4.99999)
+scale = Vector2(1, 1)
+texture = ExtResource("14_hj442")
+
+[node name="CharacterHead" type="Sprite2D" parent="SkeletonContainer/Parts"]
+scale = Vector2(1, 1)
+texture = ExtResource("15_pseto")
+
+[node name="CharacterHat" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterHead"]
+scale = Vector2(1, 1)
+texture = ExtResource("16_e7xtx")
+
+[node name="Skeleton2D" type="Skeleton2D" parent="SkeletonContainer"]
+position = Vector2(0, 90)
+modification_stack = SubResource("SkeletonModificationStack2D_5wuh8")
+
+[node name="Body" type="Bone2D" parent="SkeletonContainer/Skeleton2D"]
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body"]
+
+[node name="Head" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body/Head"]
+scale = Vector2(1, 1)
+
+[node name="Hat" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body/Head"]
+position = Vector2(0, -115)
+rotation = -1.57559
+rest = Transform2D(-0.00479033, -0.999989, 0.999989, -0.00479033, 0, -115)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body/Head/Hat"]
+position = Vector2(-114.999, -0.550888)
+rotation = 1.57559
+
+[node name="LeftArm" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
+position = Vector2(50, -50)
+rotation = 0.592449
+rest = Transform2D(0.829576, 0.558394, -0.558394, 0.829576, 50, -50)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body/LeftArm"]
+
+[node name="Wand" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body/LeftArm"]
+position = Vector2(91.574, 10.6869)
+rotation = -1.64311
+rest = Transform2D(-0.0722517, -0.997386, 0.997386, -0.0722517, 91.574, 10.6869)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body/LeftArm/Wand"]
+
+[node name="RightArm" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
+position = Vector2(-50, -55)
+rotation = 2.22018
+rest = Transform2D(-0.604697, 0.796455, -0.796455, -0.604697, -50, -55)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body/RightArm"]
+
+[node name="LeftLeg" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
+position = Vector2(45, 95)
+rotation = 1.2262
+scale = Vector2(1, 1)
+rest = Transform2D(0.337818, 0.941211, -0.941211, 0.337818, 45, 95)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body/LeftLeg"]
+position = Vector2(-7.95695, 140.576)
+
+[node name="RightLeg" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
+position = Vector2(-55, 100)
+rotation = 1.75167
+rest = Transform2D(-0.179889, 0.983687, -0.983687, -0.179889, -55, 100)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body/RightLeg"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_y6egc")
+}
 
 [connection signal="attack_speed_modifier_has_changed" from="." to="AttackTimer" method="_on_player_attack_speed_modifier_has_changed"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
