@@ -43,6 +43,7 @@ height = 60.0
 [node name="Mob" type="CharacterBody2D" groups=["enemy"]]
 visibility_layer = 2
 collision_layer = 11
+platform_floor_layers = 4294967284
 safe_margin = 30.0
 script = ExtResource("1_batpi")
 
@@ -81,6 +82,10 @@ shape = SubResource("CircleShape2D_mw3tk")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_xog2x")
 
+[node name="DotTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="body_shape_entered" from="HitBox" to="." method="_on_hit_box_body_shape_entered"]
+[connection signal="timeout" from="DotTimer" to="." method="_on_dot_timer_timeout"]

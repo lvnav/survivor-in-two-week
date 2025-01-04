@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://clpovqi64r52s"]
+[gd_scene load_steps=24 format=3 uid="uid://clpovqi64r52s"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_cslsb"]
 [ext_resource type="PackedScene" uid="uid://d0lgfe3nmh2ok" path="res://Scenes/Bolt/Bolt.tscn" id="2_1cu1m"]
@@ -12,18 +12,15 @@
 [ext_resource type="Script" path="res://Scenes/EnvironmentalStateSprite/environmental_state_sprite.gd" id="12_6lm4a"]
 [ext_resource type="Texture2D" uid="uid://chx5xapybtv7o" path="res://Assets/Player/character_right_arm.png" id="12_deoxw"]
 [ext_resource type="Texture2D" uid="uid://bcudtvcwjgxij" path="res://Assets/Player/character_left_leg.png" id="13_8fvsu"]
-[ext_resource type="Texture2D" uid="uid://b0b3nxcj4y4y7" path="res://Assets/character.png" id="13_qlxdv"]
 [ext_resource type="Texture2D" uid="uid://b1afs07krc8q7" path="res://Assets/Player/character_right_leg.png" id="14_hj442"]
 [ext_resource type="Texture2D" uid="uid://dhhi14rmj0usl" path="res://Assets/Player/character_head.png" id="15_pseto"]
 [ext_resource type="Texture2D" uid="uid://dj5b7aa0pioqp" path="res://Assets/Player/character_hat.png" id="16_e7xtx"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1m36f"]
-radius = 15.3108
-height = 30.6217
+[sub_resource type="CircleShape2D" id="CircleShape2D_cyhwa"]
+radius = 72.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mlcig"]
-radius = 42.0141
-height = 123.99
+[sub_resource type="CircleShape2D" id="CircleShape2D_2d2rs"]
+radius = 72.0
 
 [sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_5wuh8"]
 
@@ -570,10 +567,10 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
-z_index = 1
 y_sort_enabled = true
 scale = Vector2(0.2, 0.2)
 collision_layer = 11
+platform_floor_layers = 4294967284
 script = ExtResource("1_cslsb")
 bolt = ExtResource("2_1cu1m")
 
@@ -601,28 +598,27 @@ limit_top = -1600
 limit_right = 1580
 limit_bottom = 1600
 limit_smoothed = true
+position_smoothing_enabled = true
 
 [node name="CharacterBodyCollisionShape" type="CollisionShape2D" parent="."]
-visible = false
 y_sort_enabled = true
-position = Vector2(0, -3.8147e-06)
-scale = Vector2(-7.453, 12.7361)
-shape = SubResource("CapsuleShape2D_1m36f")
+shape = SubResource("CircleShape2D_cyhwa")
 
 [node name="HitBox" type="Area2D" parent="."]
-visible = false
 scale = Vector2(3.0942, 3.06476)
 collision_layer = 11
 collision_mask = 15
 
 [node name="HitBoxCollisionShape" type="CollisionShape2D" parent="HitBox"]
-shape = SubResource("CapsuleShape2D_mlcig")
+shape = SubResource("CircleShape2D_2d2rs")
 
 [node name="StateIndicator" type="HBoxContainer" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = 35.0
 offset_top = -90.0
 offset_right = 75.0
@@ -635,60 +631,55 @@ priority = 2
 script = ExtResource("12_6lm4a")
 custom_scale = Vector2(1.7, 1.7)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.703125, 0.742188)
-texture = ExtResource("13_qlxdv")
-
 [node name="SkeletonContainer" type="Node2D" parent="."]
 
 [node name="Parts" type="Node2D" parent="SkeletonContainer"]
 
 [node name="CharacterTorso" type="Sprite2D" parent="SkeletonContainer/Parts"]
-position = Vector2(0, 9.53674e-06)
+position = Vector2(0, 75)
 scale = Vector2(1, 1)
 texture = ExtResource("9_1wpl4")
 
 [node name="CharacterLeftArm" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
-position = Vector2(-13.2618, 1.3204)
-rotation = -0.159513
-scale = Vector2(0.999956, 0.999956)
+position = Vector2(278.193, 111.801)
+rotation = 2.36525
+scale = Vector2(0.999955, 0.999955)
 texture = ExtResource("10_70yf6")
 
 [node name="CharacterWand" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso/CharacterLeftArm"]
-position = Vector2(20.5388, -8.84192)
-rotation = 0.0936386
-scale = Vector2(0.999991, 0.999991)
+position = Vector2(-113.293, 82.4961)
+rotation = -1.61076
+scale = Vector2(0.999985, 0.999985)
 texture = ExtResource("11_dueqx")
 
 [node name="CharacterRightArm" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
-position = Vector2(16.447, 34.1992)
-rotation = 0.469418
-scale = Vector2(0.999871, 0.999871)
+position = Vector2(-196.752, 47.4279)
+rotation = -1.791
+scale = Vector2(0.99987, 0.99987)
 texture = ExtResource("12_deoxw")
 
 [node name="CharacterLeftLeg" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
-position = Vector2(-36.7655, 2.1634)
-rotation = -0.0592028
+position = Vector2(255.737, 70.2452)
+rotation = 1.41134
 scale = Vector2(0.999922, 0.999922)
 texture = ExtResource("13_8fvsu")
 
 [node name="CharacterRightLeg" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
-position = Vector2(9.83523, 1.57472)
-rotation = 0.0693864
-scale = Vector2(0.999903, 0.999903)
+position = Vector2(132.796, 177.143)
+rotation = 1.42552
+scale = Vector2(0.999901, 0.999901)
 texture = ExtResource("14_hj442")
 
 [node name="CharacterHead" type="Sprite2D" parent="SkeletonContainer/Parts"]
-position = Vector2(4.46824, -0.338323)
-rotation = -0.149516
+position = Vector2(-245.035, 146.373)
+rotation = -1.525
 scale = Vector2(0.999878, 0.999878)
 texture = ExtResource("15_pseto")
 
 [node name="CharacterHat" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterHead"]
-position = Vector2(0.000320911, -0.00646487)
-rotation = -0.0137386
-scale = Vector2(0.999932, 0.999932)
+position = Vector2(43.5924, -149.161)
+rotation = -1.09221
+scale = Vector2(0.999931, 0.999931)
 texture = ExtResource("16_e7xtx")
 
 [node name="Skeleton2D" type="Skeleton2D" parent="SkeletonContainer"]
@@ -717,7 +708,7 @@ remote_path = NodePath("../../../../Parts/CharacterHead")
 z_index = 1
 position = Vector2(5, -65)
 rotation = -0.00154221
-scale = Vector2(0.999932, 0.999932)
+scale = Vector2(0.999931, 0.999931)
 rest = Transform2D(0.999999, -0.00154221, 0.00154221, 0.999999, 5, -65)
 auto_calculate_length_and_angle = false
 length = 16.0
@@ -731,7 +722,7 @@ remote_path = NodePath("../../../../../Parts/CharacterHead/CharacterHat")
 [node name="RightArm" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
 position = Vector2(-50, -20)
 rotation = 1.65423
-scale = Vector2(0.999871, 0.999871)
+scale = Vector2(0.99987, 0.99987)
 rest = Transform2D(0.984719, 0.174153, -0.174153, 0.984719, -50, -55)
 auto_calculate_length_and_angle = false
 length = 16.0
@@ -745,7 +736,7 @@ remote_path = NodePath("../../../../Parts/CharacterTorso/CharacterRightArm")
 [node name="LeftArm" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
 position = Vector2(50, -60)
 rotation = 0.490009
-scale = Vector2(0.999956, 0.999956)
+scale = Vector2(0.999955, 0.999955)
 rest = Transform2D(0.829576, 0.558394, -0.558394, 0.829576, 50, -50)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body/LeftArm"]
@@ -756,7 +747,7 @@ remote_path = NodePath("../../../../Parts/CharacterTorso/CharacterLeftArm")
 [node name="Wand" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body/LeftArm"]
 position = Vector2(91.574, 10.6869)
 rotation = 0.0637805
-scale = Vector2(0.999991, 0.999991)
+scale = Vector2(0.999985, 0.999985)
 rest = Transform2D(0.997967, 0.0637373, -0.0637373, 0.997967, 91.574, 10.6869)
 auto_calculate_length_and_angle = false
 length = 16.0
@@ -784,7 +775,7 @@ remote_path = NodePath("../../../../Parts/CharacterTorso/CharacterLeftLeg")
 [node name="RightLeg" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
 position = Vector2(-55, 105)
 rotation = -1.06285
-scale = Vector2(0.999903, 0.999903)
+scale = Vector2(0.999901, 0.999901)
 rest = Transform2D(0.983649, 0.180095, -0.180095, 0.983649, -55, 100)
 auto_calculate_length_and_angle = false
 length = 16.0
@@ -801,6 +792,15 @@ libraries = {
 "": SubResource("AnimationLibrary_y6egc")
 }
 
+[node name="CameraShakeTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="DotTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="SelfHealTimer" type="Timer" parent="."]
+wait_time = 3.0
+
 [connection signal="attack_speed_modifier_has_changed" from="." to="AttackTimer" method="_on_player_attack_speed_modifier_has_changed"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="DodgeTimer" to="." method="_on_dodge_timer_timeout"]
@@ -809,3 +809,6 @@ libraries = {
 [connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
 [connection signal="body_shape_entered" from="HitBox" to="." method="_on_hit_box_body_shape_entered"]
 [connection signal="input_event" from="HitBox" to="." method="_on_hit_box_input_event"]
+[connection signal="timeout" from="CameraShakeTimer" to="." method="_on_camera_shake_timer_timeout"]
+[connection signal="timeout" from="DotTimer" to="." method="_on_dot_timer_timeout"]
+[connection signal="timeout" from="SelfHealTimer" to="." method="_on_self_heal_timer_timeout"]

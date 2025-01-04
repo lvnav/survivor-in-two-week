@@ -30,3 +30,5 @@ func _on_area_entered(area: Area2D) -> void:
 
 func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
 	EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)
+	if body.is_in_group("wall"):
+		queue_free()

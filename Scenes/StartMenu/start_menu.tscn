@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://crguvm4m6ew6y"]
+[gd_scene load_steps=3 format=3 uid="uid://crguvm4m6ew6y"]
 
 [ext_resource type="Script" path="res://Scenes/StartMenu/start_menu.gd" id="1_qtw41"]
+[ext_resource type="FontFile" uid="uid://bj3aa3f6jr6mg" path="res://Assets/Fonts/Puerto Magnifico.otf" id="2_vmt3c"]
 
 [node name="StartMenu" type="BoxContainer"]
 anchors_preset = 8
@@ -14,12 +15,14 @@ offset_right = 23.0
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(6, 6)
+scale = Vector2(1, 0.994622)
 pivot_offset = Vector2(23, 15)
 script = ExtResource("1_qtw41")
 
 [node name="StartButton" type="Button" parent="."]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_vmt3c")
+theme_override_font_sizes/font_size = 130
 text = "Start"
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

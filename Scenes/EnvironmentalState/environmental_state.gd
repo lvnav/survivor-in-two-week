@@ -32,7 +32,8 @@ func set_elemental_state(key: String, new_value: bool) -> void:
 	elemental_states[key] = new_value
 	elemental_states_change.emit(key, new_value)
 	
-	actual_state_timer.start()
+	if actual_state_timer.is_stopped():
+		actual_state_timer.start()
 	
 
 func is_altered() -> bool:

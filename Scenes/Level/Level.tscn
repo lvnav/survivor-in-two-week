@@ -9,10 +9,14 @@ script = ExtResource("1_ieq04")
 mob = ExtResource("2_w1lrs")
 
 [node name="MobSpawnTimer" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 2.0
 autostart = true
 
 [node name="UpHandler" type="Node" parent="."]
 script = ExtResource("3_pod3h")
+
+[node name="DifficultyTimer" type="Timer" parent="."]
+wait_time = 300.0
+autostart = true
 
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timeout"]

@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://drvvqme4pl30h"]
+
+[ext_resource type="FontFile" uid="uid://bj3aa3f6jr6mg" path="res://Assets/Fonts/Puerto Magnifico.otf" id="1_6q4f6"]
+
+[resource]
+default_font = ExtResource("1_6q4f6")

@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://byysobtogm3ah"]
+[gd_scene load_steps=10 format=3 uid="uid://byysobtogm3ah"]
 
 [ext_resource type="Script" path="res://Scenes/root.gd" id="2_emk15"]
 [ext_resource type="PackedScene" uid="uid://crguvm4m6ew6y" path="res://Scenes/StartMenu/start_menu.tscn" id="3_wkcoi"]
 [ext_resource type="PackedScene" uid="uid://bsbrbouhigy8o" path="res://Scenes/Level/Level.tscn" id="4_6n0bp"]
+[ext_resource type="Theme" uid="uid://drvvqme4pl30h" path="res://theme.tres" id="5_yf8l4"]
 [ext_resource type="PackedScene" uid="uid://dvn26i4m8i8i7" path="res://Scenes/ProcGenWorld/proc_gen_world.tscn" id="6_ge0mj"]
 [ext_resource type="PackedScene" uid="uid://clpovqi64r52s" path="res://Scenes/Player/player.tscn" id="6_rbrhd"]
 [ext_resource type="PackedScene" uid="uid://bjrx1run31mnd" path="res://Scenes/Hud/Hud.tscn" id="7_e6ye5"]
@@ -17,8 +18,11 @@ script = ExtResource("2_emk15")
 [node name="HUD" parent="Level" instance=ExtResource("7_e6ye5")]
 
 [node name="GameOverMenu" parent="Level/HUD" instance=ExtResource("8_gsu11")]
+offset_right = 42.5
+theme = ExtResource("5_yf8l4")
 
 [node name="StartMenu" parent="Level/HUD" instance=ExtResource("3_wkcoi")]
+theme = ExtResource("5_yf8l4")
 alignment = 1
 
 [node name="ProcGenWorld2" parent="Level" instance=ExtResource("6_ge0mj")]

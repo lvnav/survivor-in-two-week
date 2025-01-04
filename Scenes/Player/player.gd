@@ -3,7 +3,7 @@ class_name Player extends CharacterBody2D
 var BoltPacked: PackedScene = preload("res://Scenes/Bolt/Bolt.tscn")
 
 const DEFAULT_TOTAL_LIFE: int = 100
-const BASE_SPEED: float = 500.0
+const BASE_SPEED: float = 200.0
 
 @export var bolt: PackedScene
 @export var bolts: Array[Bolt]
@@ -22,9 +22,10 @@ const BASE_SPEED: float = 500.0
 @onready var label: Label = $Label
 @onready var environmental_state: EnvironmentalState = $EnvironmentalState
 @onready var environmental_state_sprite: EnvironmentalStateSprite = $EnvironmentalStateSprite
-@onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var skeleton_container: Node2D = $SkeletonContainer
+@onready var camera_shake_timer: Timer = $CameraShakeTimer
+@onready var self_heal_timer: Timer = $SelfHealTimer
 
 var local_game_state: String
 var player_state: String
@@ -55,6 +56,12 @@ func _ready() -> void:
 	set_total_life(DEFAULT_TOTAL_LIFE)
 	set_remaining_life(DEFAULT_TOTAL_LIFE)
 	environmental_state_sprite.environmental_state = environmental_state
+
+func _process(_delta: float) -> void:
+	if environmental_state.elemental_states["wet"] and self_heal_timer.is_stopped():
+		self_heal_timer.start()
+	if environmental_state.elemental_states["burning"]:
+		self_heal_timer.stop()
 	
 func _physics_process(_delta: float) -> void:
 	if local_game_state != "play":
@@ -89,8 +96,9 @@ func _move() -> void:
 	if (direction.x != 0 or direction.y != 0) and Input.is_action_just_pressed("dodge") and release_dodge_timer.is_stopped():
 		dodge_timer.start()
 		dodge_move_speed_boost = BASE_SPEED
-		
-	velocity = direction * (dodge_move_speed_boost + BASE_SPEED + (BASE_SPEED * move_speed_modifier / 100))
+	
+	velocity = mob_applied_movement + direction * (dodge_move_speed_boost + BASE_SPEED + (BASE_SPEED * move_speed_modifier / 100))
+	mob_applied_movement = Vector2(0,0)
 	move_and_slide()
 	
 func _aim() -> void:
@@ -116,7 +124,7 @@ func set_total_life(new_total_life: int) -> void:
 	total_life_change.emit(total_life)
 
 func set_remaining_life(new_remaining_life: int) -> void:
-	remaining_life = new_remaining_life
+	remaining_life = min(new_remaining_life, total_life)
 	remaining_life_change.emit(remaining_life)
 	if (remaining_life <= 0):
 		has_no_hp.emit()
@@ -140,7 +148,7 @@ func _on_game_state_change(game_state: String) -> void:
 
 func leech(local_bolt: Bolt, mob: Mob) -> void:
 	var damage: float = min(local_bolt.damage, mob.life)
-	remaining_life = min(remaining_life + (damage * leech_modifier / 100), total_life)
+	remaining_life = int(remaining_life + (damage * leech_modifier / 100))
 
 func _on_dodge_timer_timeout() -> void:
 	dodge_move_speed_boost = -50
@@ -151,11 +159,20 @@ func _on_release_dodge_timer_timeout() -> void:
 	dodge_move_speed_boost = 0
 	release_dodge_timer.stop()
 
+var mob_applied_movement: Vector2
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
 		var mob: Mob = area.get_parent()
+		mob_applied_movement += mob.velocity * 2
 		set_remaining_life(remaining_life - mob.damage)
 
 func _on_hit_box_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
 	EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)
 		
+func _on_dot_timer_timeout() -> void:
+	if environmental_state.elemental_states["burning"]:
+		set_remaining_life(remaining_life - 5)
+
+func _on_self_heal_timer_timeout() -> void:
+	print("cc")
+	set_remaining_life(remaining_life + 2)

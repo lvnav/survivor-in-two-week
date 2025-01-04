@@ -9,4 +9,4 @@ func _on_start_button_pressed() -> void:
 
 func _on_game_state_change(game_state: String) -> void:
 	if game_state == "play":
-		start_button.hide()
+		hide()

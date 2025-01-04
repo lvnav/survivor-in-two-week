@@ -76,22 +76,16 @@ func generate_world() -> void:
 					var cell_position: Vector2i = Vector2i(x,y)
 					environment.set_cell(cell_position, source_id, random_palm_tree_type)
 					var tiledata: TileData = environment.get_cell_tile_data(cell_position)
-					
-					var logic_tile: LogicTile = logic_tile_packed_scene.instantiate()
-					
-					logic_tile = logic_tile.with_data(
-						tiledata,
-						cell_position
-					)
-					add_child(logic_tile)
-					
-					logic_tiles[cell_position] = logic_tile
+					add_logic_tile(cell_position, tiledata)
 						
 				if noise_val > .2:
 					grass_tiles.append(Vector2i(x,y))
 					if noise_val > .25:
 						if noise_val < .3 and tree_noise_val > .85:
+							var cell_position: Vector2i = Vector2i(x,y)
+							var tiledata: TileData = environment.get_cell_tile_data(cell_position)
 							environment.set_cell(Vector2i(x,y), source_id, oak_tree_atlas)
+							add_logic_tile(cell_position, tiledata)
 						var random_grass: Vector2i = grass_atlas.pick_random()
 						ground_2.set_cell(Vector2i(x,y), source_id, random_grass)
 						
@@ -104,4 +98,14 @@ func generate_world() -> void:
 	water.set_cells_terrain_connect(sand_tiles, terrain_sand_int, 0)
 	ground_1.set_cells_terrain_connect(grass_tiles, terrain_grass_int, 0)
 	cliff.set_cells_terrain_connect(cliff_tiles, terrain_cliff_int, 0)
+	
+func add_logic_tile(cell_position: Vector2i, tiledata: TileData) -> void:
+	var logic_tile: LogicTile = logic_tile_packed_scene.instantiate()
+	logic_tile = logic_tile.with_data(
+		tiledata,
+		cell_position
+	)
+	add_child(logic_tile)
+	
+	logic_tiles[cell_position] = logic_tile
 	

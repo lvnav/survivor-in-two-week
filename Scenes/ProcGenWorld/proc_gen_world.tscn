@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dvn26i4m8i8i7"]
 
-[ext_resource type="Script" path="res://Scenes/Level/proc_gen_world.gd" id="1_uucdy"]
+[ext_resource type="Script" path="res://Scenes/ProcGenWorld/proc_gen_world.gd" id="1_uucdy"]
 [ext_resource type="TileSet" uid="uid://bixen2pbc7wlb" path="res://Scenes/Level/tileset.tres" id="2_34xxr"]
 [ext_resource type="PackedScene" uid="uid://i0eluahn8bp0" path="res://Scenes/LogicTile/logic_tile.tscn" id="4_lyk88"]
 
@@ -53,7 +53,7 @@ y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 navigation_enabled = false
 
-[node name="Cliff" type="TileMapLayer" parent="."]
+[node name="Cliff" type="TileMapLayer" parent="." groups=["wall"]]
 y_sort_enabled = true
 tile_set = ExtResource("2_34xxr")
 navigation_enabled = false

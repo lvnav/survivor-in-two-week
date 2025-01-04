@@ -34,8 +34,7 @@ func _physics_process(_delta: float) -> void:
 		navigation_agent_2d.target_position = target.position
 		direction = navigation_agent_2d.get_next_path_position()
 		var new_velocity: Vector2 = global_position.direction_to(direction)
-		_on_navigation_agent_2d_velocity_computed(new_velocity)
-		move_and_slide()
+		move_and_collide(new_velocity)
 	
 func _on_screen_exited() -> void:
 	queue_free()
@@ -43,11 +42,9 @@ func _on_screen_exited() -> void:
 func _on_player_position_change(new_position: Vector2i) -> void:
 	player_position = new_position
 
-func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
-	velocity = safe_velocity * DEFAULT_SPEED
-
 func _on_hit_box_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
 	EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)
+	
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_dmg_projectile"):
@@ -57,3 +54,7 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 	if life <= 0:
 		die.emit()
 		queue_free()
+
+func _on_dot_timer_timeout() -> void:
+	if environmental_state.elemental_states["burning"]:
+		life -= 5
