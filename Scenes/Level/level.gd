@@ -69,11 +69,9 @@ func new_game() -> void:
 
 func end_game() -> void:
 	player.die()
-	get_tree().paused = true
 
 func _on_player_shoot(BoltPacked: PackedScene, direction: float, location: Vector2, shooter: Player) -> void:
 	var spawned_bullet: Bolt = BoltPacked.instantiate()
-	#if direction p
 	spawned_bullet.rotation = direction + (3 * PI / 2)
 	spawned_bullet.position = location
 	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)

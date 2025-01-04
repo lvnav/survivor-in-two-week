@@ -23,6 +23,8 @@ const BASE_SPEED: float = 500.0
 @onready var environmental_state: EnvironmentalState = $EnvironmentalState
 @onready var environmental_state_sprite: EnvironmentalStateSprite = $EnvironmentalStateSprite
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var skeleton_container: Node2D = $SkeletonContainer
 
 var local_game_state: String
 var player_state: String
@@ -74,13 +76,15 @@ func _move() -> void:
 	var direction: Vector2 = Input.get_vector("user_move_left", "user_move_right", "user_move_up", "user_move_down")
 	if (direction.x == 0 and direction.y == 0):
 		player_state = "idle"
+		animation_player.stop()
 	else:
 		player_state = "move"
+		animation_player.play("walk")
 	
 	if to_local(ray_cast_2d.target_position).x < 0:
-		sprite_2d.flip_h = true
+		skeleton_container.scale.x = -1
 	else:
-		sprite_2d.flip_h = false
+		skeleton_container.scale.x = 1
 	
 	if (direction.x != 0 or direction.y != 0) and Input.is_action_just_pressed("dodge") and release_dodge_timer.is_stopped():
 		dodge_timer.start()
@@ -128,7 +132,7 @@ func start(pos: Vector2) -> void:
 	hit_box_collision_shape.disabled = false
 	
 func die() -> void:
-	hide()
+	animation_player.play("die")
 	hit_box_collision_shape.disabled = true
 
 func _on_game_state_change(game_state: String) -> void:
@@ -146,7 +150,6 @@ func _on_dodge_timer_timeout() -> void:
 func _on_release_dodge_timer_timeout() -> void:
 	dodge_move_speed_boost = 0
 	release_dodge_timer.stop()
-
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
