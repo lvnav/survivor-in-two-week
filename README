@@ -1,0 +1,17 @@
+This project was a dive into Godot. Objective was simple : familiarize with this game engine through a minimal 2D survivor game creation. 
+
+Godot mechanics used here:
+- Physic through character, mobs and projectiles collisions
+- TileMapLayer and pathfinding base on navigation polygon baking at runtime (with information from TileMapLayer)
+- Singleton aka global class usable from any scene
+- Animating a cut-out with AnimationPlayer and Skeleton2D
+- A little bit of UI (very very very minimal)
+
+Game systems:
+- Procedural world generation with tiles
+- Skill or stats up on level up
+- Elemental state diffusion through mob, projectiles, enemies and tiles (system of "LogicTile" needed)
+- Mobs spawn outside of the viewport but not too far
+- Dodge mechanic
+- Two spells : fire who make DoT and burn trees (they disapear after a while) and water which heal the player
+- Mobs quantity who evolve according to a ease in function
