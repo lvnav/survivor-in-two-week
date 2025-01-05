@@ -457,13 +457,11 @@ custom_scale = Vector2(1.7, 1.7)
 
 [node name="CharacterTorso" type="Sprite2D" parent="SkeletonContainer/Parts"]
 position = Vector2(0, 9.53674e-06)
-scale = Vector2(1, 1)
 texture = ExtResource("9_1wpl4")
 
 [node name="CharacterLeftArm" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
 position = Vector2(-9.99999, 5.00004)
 rotation = -0.0570735
-scale = Vector2(1, 1)
 texture = ExtResource("10_70yf6")
 
 [node name="CharacterWand" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso/CharacterLeftArm"]
@@ -474,7 +472,6 @@ texture = ExtResource("11_dueqx")
 [node name="CharacterRightArm" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
 position = Vector2(15, 20)
 rotation = 0.329697
-scale = Vector2(1, 1)
 texture = ExtResource("12_deoxw")
 
 [node name="CharacterLeftLeg" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
@@ -485,17 +482,14 @@ texture = ExtResource("13_8fvsu")
 [node name="CharacterRightLeg" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterTorso"]
 position = Vector2(5.00001, -4.99967)
 rotation = 0.0444601
-scale = Vector2(1, 1)
 texture = ExtResource("14_hj442")
 
 [node name="CharacterHead" type="Sprite2D" parent="SkeletonContainer/Parts"]
-scale = Vector2(1, 1)
 texture = ExtResource("15_pseto")
 
 [node name="CharacterHat" type="Sprite2D" parent="SkeletonContainer/Parts/CharacterHead"]
 position = Vector2(-1.66893e-05, 3.8147e-05)
 rotation = -0.0137386
-scale = Vector2(1, 1)
 texture = ExtResource("16_e7xtx")
 
 [node name="Skeleton2D" type="Skeleton2D" parent="SkeletonContainer"]
@@ -522,8 +516,7 @@ remote_path = NodePath("../../../../Parts/CharacterHead")
 [node name="Hat" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body/Head"]
 z_index = 1
 position = Vector2(5, -65)
-rotation = -0.00154221
-scale = Vector2(1, 1)
+rotation = -0.00154222
 rest = Transform2D(0.999999, -0.00154221, 0.00154221, 0.999999, 5, -65)
 auto_calculate_length_and_angle = false
 length = 16.0
@@ -551,7 +544,6 @@ remote_path = NodePath("../../../../Parts/CharacterTorso/CharacterRightArm")
 [node name="LeftArm" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
 position = Vector2(50, -50)
 rotation = 0.592449
-scale = Vector2(1, 1)
 rest = Transform2D(0.829576, 0.558394, -0.558394, 0.829576, 50, -50)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SkeletonContainer/Skeleton2D/Body/LeftArm"]
@@ -576,7 +568,6 @@ remote_path = NodePath("../../../../../Parts/CharacterTorso/CharacterLeftArm/Cha
 [node name="LeftLeg" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
 position = Vector2(45, 95)
 rotation = 0.215184
-scale = Vector2(1, 1)
 rest = Transform2D(0.976937, 0.213527, -0.213527, 0.976937, 45, 95)
 auto_calculate_length_and_angle = false
 length = 16.0
@@ -590,7 +581,6 @@ remote_path = NodePath("../../../../Parts/CharacterTorso/CharacterLeftLeg")
 [node name="RightLeg" type="Bone2D" parent="SkeletonContainer/Skeleton2D/Body"]
 position = Vector2(-55, 100)
 rotation = 0.181083
-scale = Vector2(1, 1)
 rest = Transform2D(0.983649, 0.180095, -0.180095, 0.983649, -55, 100)
 auto_calculate_length_and_angle = false
 length = 16.0

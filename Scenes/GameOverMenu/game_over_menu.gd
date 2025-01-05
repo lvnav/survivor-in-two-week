@@ -1,7 +1,5 @@
 extends Control
 
-signal restart_game_pressed
-
 func _ready() -> void:
 	GameState.game_state_change.connect(_on_game_state_change)
 	hide()

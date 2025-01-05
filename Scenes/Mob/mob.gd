@@ -46,7 +46,7 @@ func _on_dot_timer_timeout() -> void:
 	if environmental_state.elemental_states["burning"]:
 		life -= 5
 
-func _on_hit_box_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+func _on_hit_box_area_shape_entered(area_rid: RID, area: Area2D, _area_shape_index: int, _local_shape_index: int) -> void:
 	EnvironmentalStateResolver.resolve(area, area_rid, self.environmental_state)
 	if area.is_in_group("player_dmg_projectile"):
 		var bolt: Bolt = area

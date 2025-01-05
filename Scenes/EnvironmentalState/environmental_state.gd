@@ -57,5 +57,5 @@ func _on_actual_state_timer_timeout() -> void:
 		
 
 func reset() -> void:
-	for state in elemental_states:
+	for state: String in elemental_states:
 		set_elemental_state(state, false)

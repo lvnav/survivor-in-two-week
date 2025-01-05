@@ -78,8 +78,8 @@ func suggest() -> Array[Dictionary]:
 	var suggestions: Array[Dictionary] = []
 	var tmp_options: Array[Dictionary] = []
 	
-	for option in OPTIONS:
-		for quantity in option.rarity:
+	for option: Dictionary in OPTIONS:
+		for quantity: int in option.rarity:
 			tmp_options.append(option)
 
 	while suggestions.size() < 3:

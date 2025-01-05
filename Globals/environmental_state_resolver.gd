@@ -2,7 +2,7 @@ extends Node
 
 static var proc_world: ProcGenWorld
 
-static func resolve(body: Node2D, body_rid: RID, environmentalState: EnvironmentalState) -> void:
+static func resolve(body: Node2D, body_rid: RID, environmental_state: EnvironmentalState) -> void:
 	if body is TileMapLayer:
 		var tilemap_layer: TileMapLayer = body
 		var cell_coords: Vector2i = tilemap_layer.get_coords_for_body_rid(body_rid)
@@ -10,10 +10,12 @@ static func resolve(body: Node2D, body_rid: RID, environmentalState: Environment
 			return
 			
 		var logic_tile: LogicTile = proc_world.logic_tiles[cell_coords]
-		priorizedPropagation(environmentalState, logic_tile.environmental_state)
+		priorizedPropagation(environmental_state, logic_tile.environmental_state)
 	
 	if body.is_in_group("elementable"):
-		priorizedPropagation(environmentalState, body.environmental_state)
+		assert("environmental_state" in body, "Received body here must have an environmental_state")
+		var environmental_state_from_body: EnvironmentalState = body.environmental_state
+		priorizedPropagation(environmental_state, environmental_state_from_body)
 	
 static func propagate(from: EnvironmentalState, to: EnvironmentalState) -> void:
 	for key: String in from.elemental_states:
