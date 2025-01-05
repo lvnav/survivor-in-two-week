@@ -17,18 +17,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	position += velocity * delta * speed
 	
-func _on_screen_exited() -> void:
-	queue_free()
-
-func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy"):
-		var mob: Mob = area.get_parent()
+func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
+	EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)
+	if body.is_in_group("mob"):
+		var mob: Mob = body
 		shoot_origin.leech(self, mob)
-		EnvironmentalStateResolver.priorizedPropagation(mob.environmental_state, self.environmental_state)
 		if !shoot_origin.has_piercing_projectile:
 			queue_free()
 
-func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
-	EnvironmentalStateResolver.resolve(body, body_rid, self.environmental_state)
 	if body.is_in_group("wall"):
 		queue_free()

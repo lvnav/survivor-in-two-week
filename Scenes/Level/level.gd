@@ -1,7 +1,6 @@
 class_name Level extends Node2D
 
 @onready var hud: Hud = $HUD
-@onready var root: Root = $".."
 @onready var up_handler: UpHandler = $UpHandler
 @onready var player: Player = $ProcGenWorld2/Player
 @onready var proc_gen_world_2: ProcGenWorld = $ProcGenWorld2
@@ -16,12 +15,13 @@ var need_up: bool
 signal level_up
 
 func _ready() -> void:
+	GameState.game_state_change.connect(_on_game_state_change)
 	_init_mob()
 
 func _process(_delta: float) -> void:
-	if need_up or Input.is_action_just_pressed("debug_up"):
+	if need_up or (OS.is_debug_build() and Input.is_action_just_pressed("debug_up")):
 		get_tree().paused = true
-		level_up.emit([up_handler.OPTIONS.pick_random(),up_handler.OPTIONS.pick_random(),up_handler.OPTIONS.pick_random()])
+		level_up.emit(up_handler.suggest())
 
 func _on_mob_spawn_timeout() -> void:
 	for new_mobs: int in max(1, int(ease((difficulty_timer.wait_time - difficulty_timer.time_left) / difficulty_timer.wait_time, 1.6) * 10)):
@@ -29,7 +29,7 @@ func _on_mob_spawn_timeout() -> void:
 	mob_spawn_timer.wait_time = mob_spawn_timer.wait_time
 
 func _init_mob() -> void:
-	if root.game_state != root.GAME_STATE_PLAY:
+	if GameState.game_state != GameStateEnum.State.PLAY:
 		return
 
 	var spawn_position: Vector2 = find_spawn_position()
@@ -56,21 +56,19 @@ func _up_button_pressed(choice: Dictionary) -> void:
 	up_handler.upgrade(player, choice)
 	_on_level_up_finished()
 
-
-func _on_game_state_change(game_state: String) -> void:
-	if game_state == root.GAME_STATE_PLAY:
+func _on_game_state_change(game_state: GameStateEnum.State) -> void:
+	if game_state == GameStateEnum.State.PLAY:
 		new_game()
-	if game_state == root.GAME_STATE_GAME_OVER:
+	if game_state == GameStateEnum.State.GAME_OVER:
 		end_game()
 
 func new_game() -> void:
 	get_tree().paused = false
 	score_value = 0
 	get_tree().call_group("mob", "queue_free")
-	player.start(Vector2(0,0))
 
 func end_game() -> void:
-	player.die()
+	pass
 
 func _on_player_shoot(BoltPacked: PackedScene, direction: float, location: Vector2, shooter: Player) -> void:
 	var spawned_bullet: Bolt = BoltPacked.instantiate()

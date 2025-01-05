@@ -36,11 +36,10 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_mw3tk"]
 radius = 45.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xog2x"]
-radius = 30.0
-height = 60.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_e76ha"]
+radius = 44.4072
 
-[node name="Mob" type="CharacterBody2D" groups=["enemy"]]
+[node name="Mob" type="CharacterBody2D" groups=["elementable", "mob"]]
 visibility_layer = 2
 collision_layer = 11
 platform_floor_layers = 4294967284
@@ -74,18 +73,19 @@ debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0.388235, 1, 1)
 
-[node name="HitBox" type="Area2D" parent="." groups=["enemy"]]
+[node name="HitBox" type="Area2D" parent="."]
 
 [node name="HitBoxCollisionShape" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CircleShape2D_mw3tk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_xog2x")
+shape = SubResource("CircleShape2D_e76ha")
 
 [node name="DotTimer" type="Timer" parent="."]
 autostart = true
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="area_shape_entered" from="HitBox" to="." method="_on_hit_box_area_shape_entered"]
 [connection signal="body_shape_entered" from="HitBox" to="." method="_on_hit_box_body_shape_entered"]
 [connection signal="timeout" from="DotTimer" to="." method="_on_dot_timer_timeout"]

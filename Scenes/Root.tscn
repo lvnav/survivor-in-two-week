@@ -36,14 +36,7 @@ stream = ExtResource("9_sgsjc")
 autoplay = true
 parameters/looping = true
 
-[connection signal="game_state_change" from="." to="Level" method="_on_game_state_change"]
-[connection signal="game_state_change" from="." to="Level/HUD/GameOverMenu" method="_on_game_state_change"]
-[connection signal="game_state_change" from="." to="Level/HUD/StartMenu" method="_on_game_state_change"]
-[connection signal="game_state_change" from="." to="Level/ProcGenWorld2/Player" method="_on_game_state_change"]
 [connection signal="level_up" from="Level" to="Level/HUD" method="_on_level_up"]
-[connection signal="restart_game_pressed" from="Level/HUD/GameOverMenu" to="." method="_on_restart_game_pressed"]
-[connection signal="start_game" from="Level/HUD/StartMenu" to="." method="_on_start_game"]
-[connection signal="has_no_hp" from="Level/ProcGenWorld2/Player" to="." method="_on_player_has_no_hp"]
 [connection signal="remaining_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_remaining_life_change"]
 [connection signal="shoot" from="Level/ProcGenWorld2/Player" to="Level" method="_on_player_shoot"]
 [connection signal="total_life_change" from="Level/ProcGenWorld2/Player" to="Level/HUD" method="_on_player_total_life_change"]

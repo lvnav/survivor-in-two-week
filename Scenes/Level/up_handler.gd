@@ -1,27 +1,28 @@
 class_name UpHandler extends Node
 
 # float modifiers are percent
+# more rare near 0
 const OPTIONS: Array[Dictionary] = [
 	{
 		"type": "stat",
 		"stat": "attack_damage",
 		"description": "Attack damage up",
 		"modifier": 50.,
-		"rarity": 1
+		"rarity": 3
 	},
 	{
 		"type": "stat",
 		"stat": "attack_speed",
 		"description": "Attack speed up",
 		"modifier": 10.,
-		"rarity": 1
+		"rarity": 3
 	},
 	{
 		"type": "stat",
 		"stat": "move_speed",
 		"description": "Move speed up",
 		"modifier": 20.,
-		"rarity": 1
+		"rarity": 3
 	},
 	{
 		"type": "stat",
@@ -34,7 +35,7 @@ const OPTIONS: Array[Dictionary] = [
 		"type": "skill",
 		"name": "piercing_projectile",
 		"description": "Wow. Piercing projectile",
-		"rarity": 3
+		"rarity": 1
 	},
 	#{
 		#"type": "skill",
@@ -44,8 +45,11 @@ const OPTIONS: Array[Dictionary] = [
 	#},
 ]
 
+var known_skills: Array[Dictionary] = []
+
 func upgrade(player: Player, choice: Dictionary) -> void:
 	if choice["type"] == "skill":
+		known_skills.append(choice)
 		match choice["name"]:
 			"piercing_projectile":
 				player.has_piercing_projectile = true
@@ -69,3 +73,18 @@ func upgrade(player: Player, choice: Dictionary) -> void:
 				assert(false, "Please handle missing case")
 	else:
 		assert(false, "Please handle missing case")
+
+func suggest() -> Array[Dictionary]:
+	var suggestions: Array[Dictionary] = []
+	var tmp_options: Array[Dictionary] = []
+	
+	for option in OPTIONS:
+		for quantity in option.rarity:
+			tmp_options.append(option)
+
+	while suggestions.size() < 3:
+		var suggestion: Dictionary = tmp_options.pick_random()
+		if suggestion not in known_skills and suggestion not in suggestions:
+			suggestions.append(suggestion)
+	
+	return suggestions

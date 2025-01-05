@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.3", "Forward Plus")
 [autoload]
 
 EnvironmentalStateResolver="*res://Globals/environmental_state_resolver.gd"
+GameState="*res://Globals/game_state.gd"
 
 [debug]
 
@@ -36,8 +37,8 @@ window/stretch/aspect="keep_width"
 [global_group]
 
 player_dmg_projectile=""
-enemy=""
 tree=""
+mob=""
 
 [input]
 

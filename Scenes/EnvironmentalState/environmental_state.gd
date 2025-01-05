@@ -34,7 +34,6 @@ func set_elemental_state(key: String, new_value: bool) -> void:
 	
 	if actual_state_timer.is_stopped():
 		actual_state_timer.start()
-	
 
 func is_altered() -> bool:
 	for state: bool in elemental_states.values():
@@ -56,3 +55,7 @@ func _on_elemental_states_change(key: String, new_value: bool) -> void:
 func _on_actual_state_timer_timeout() -> void:
 	elemental_state_consumed.emit()
 		
+
+func reset() -> void:
+	for state in elemental_states:
+		set_elemental_state(state, false)

@@ -1,12 +1,13 @@
 extends Control
 
-signal start_game
 @onready var start_button: Button = $StartButton
 
+func _ready() -> void:
+	GameState.game_state_change.connect(_on_game_state_change)
 
 func _on_start_button_pressed() -> void:
-	start_game.emit()
+	GameState.start_game()
 
-func _on_game_state_change(game_state: String) -> void:
-	if game_state == "play":
+func _on_game_state_change(game_state: GameStateEnum.State) -> void:
+	if game_state == GameStateEnum.State.PLAY:
 		hide()

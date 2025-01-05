@@ -12,6 +12,9 @@ static func resolve(body: Node2D, body_rid: RID, environmentalState: Environment
 		var logic_tile: LogicTile = proc_world.logic_tiles[cell_coords]
 		priorizedPropagation(environmentalState, logic_tile.environmental_state)
 	
+	if body.is_in_group("elementable"):
+		priorizedPropagation(environmentalState, body.environmental_state)
+	
 static func propagate(from: EnvironmentalState, to: EnvironmentalState) -> void:
 	for key: String in from.elemental_states:
 		var value: bool = from.elemental_states[key]
